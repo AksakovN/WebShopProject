@@ -1,0 +1,11 @@
+.account_button{
+    width: 60px;
+    height: 60px;
+    img{
+        width: 50px;
+        transition: 0.3s;
+        &:hover{
+            transform: scale(1.1);
+        }
+    }
+}
