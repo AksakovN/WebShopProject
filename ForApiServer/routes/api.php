@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +23,10 @@ Route::get('products', 'App\Http\Controllers\ProductController@index');
 
 Route::get('categories', 'App\Http\Controllers\CategoryController@index');
 Route::get('subcategories', 'App\Http\Controllers\SubcategoryController@index');
+Route::post('product', 'App\Http\Controllers\ProductController@getProduct');
+Route::post('productsByCategory', 'App\Http\Controllers\ProductController@getByCategory');
+
+
 
 // Route::get('categories', function () {
 //     return response(Category::all(), 200);

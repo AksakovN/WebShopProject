@@ -1,10 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 import './product_card.scss';
 
 function Product_card({ marker }) {
     const { cartItem, setcartItem, totalPrice, settotalPrice } = useContext(ForInnerDataContext);
     const [img, setimg] = useState('');
+    const navigate = useNavigate();
+    const { setprodId } = useContext(ForInnerDataContext);
+
+    function handlerRedirectOnProd() {
+        setprodId(marker.id);
+        navigate(`/product/${marker.id}`);
+    }
+
     function handlerAddToCart() {
         if (cartItem.includes(marker.id) == false && cartItem.length < 7) {
             settotalPrice(totalPrice + parseInt(marker.price));
@@ -20,6 +29,7 @@ function Product_card({ marker }) {
             }
         }
     }
+
     useEffect(() => {
         // setimg(marker.image_url);
     }, [img])
@@ -27,7 +37,7 @@ function Product_card({ marker }) {
 
 
     return (
-        <div className='product_card'>
+        <div className='product_card' onClick={handlerRedirectOnProd}>
             <img src={img} alt="" />
             <div className="product_card_menu">
                 <img src={require("../../../Images/favourite.png")} alt="addToFavourite" />

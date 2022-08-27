@@ -17,14 +17,14 @@
             margin-left: 40px;
             transition: 0.3s;
         }
-        .main_body{
+        .product_body{
             width: calc(100vw - 130px);
             padding: 20px 40px 20px 50px;
             display: flex;
             flex-wrap: wrap;
             gap: 60px;
             justify-content: flex-start;
-            align-items: flex-start;
+            align-items: center;
         }
     }
     
