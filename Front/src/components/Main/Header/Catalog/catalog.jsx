@@ -46,7 +46,7 @@ function Catalog() {
                     <div className="catalog_rows">
                         {!!getCatalog && getCatalog.map((e) => <Catalog_row key={e.id} marker={e} />)}
                     </div>
-                    <footer>Footer</footer>
+                    <footer>@Almost all content for DB was taken from <a href="https://comfy.ua/">Comfy.ua</a></footer>
                 </div>
             </div>
         </div>

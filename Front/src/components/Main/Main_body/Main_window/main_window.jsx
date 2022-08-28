@@ -20,6 +20,7 @@ function Main_window() {
     }
 
     useEffect(() => {
+        localStorage.removeItem('productInfo');
         if (products.length < 1) {
             prodRequest();
         } 
@@ -28,7 +29,6 @@ function Main_window() {
         } else {
             catalog_space.current.style.display = 'none';
         }
-        console.log(products);
     }, [catalog, products])
 
     return (

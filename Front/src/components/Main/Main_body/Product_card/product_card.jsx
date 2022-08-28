@@ -4,7 +4,7 @@ import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 import './product_card.scss';
 
 function Product_card({ marker }) {
-    const { cartItem, setcartItem, totalPrice, settotalPrice } = useContext(ForInnerDataContext);
+    const { totalPrice, settotalPrice } = useContext(ForInnerDataContext);
     const [img, setimg] = useState('');
     const navigate = useNavigate();
     const { setprodId } = useContext(ForInnerDataContext);
@@ -12,22 +12,33 @@ function Product_card({ marker }) {
     function handlerRedirectOnProd() {
         setprodId(marker.id);
         navigate(`/product/${marker.id}`);
+
     }
 
     function handlerAddToCart() {
-        if (cartItem.includes(marker.id) == false && cartItem.length < 7) {
-            settotalPrice(totalPrice + parseInt(marker.price));
-            const id = parseInt(marker.id);
-            const name = marker.name;
-            const price = parseInt(marker.price);
-            const data = {id, name, price,}
-            if (cartItem.length == 0) {
-                setcartItem([data]);
+        const id = parseInt(marker.id);
+        const name = marker.name;
+        const price = parseInt(marker.price);
+        const image_url = marker.image_url;
+        const count = 1;
+        const data = {id, name, price, image_url, count}
+        if (localStorage.getItem('cartInfo') == null) {
+            localStorage.setItem('cartInfo', JSON.stringify([data]));
+        } else {
+            const cart_array = JSON.parse(localStorage.getItem('cartInfo'));
+            let close_count = 0;
+            cart_array.forEach(e => {
+                if (e.id == marker.id) {
+                    close_count++;
+                }
+            });
+            if (close_count > 0) {
                 return;
-            } else {
-                setcartItem(cartItem => [...cartItem, data]);
             }
+            cart_array.push(data);
+            localStorage.setItem('cartInfo', JSON.stringify(cart_array));
         }
+        settotalPrice(totalPrice + 1);
     }
 
     useEffect(() => {
@@ -37,8 +48,8 @@ function Product_card({ marker }) {
 
 
     return (
-        <div className='product_card' onClick={handlerRedirectOnProd}>
-            <img src={img} alt="" />
+        <div className='product_card' >
+            <img src={img} alt="" onClick={handlerRedirectOnProd}/>
             <div className="product_card_menu">
                 <img src={require("../../../Images/favourite.png")} alt="addToFavourite" />
                 <img src={require("../../../Images/cart.png")} alt="addToCart" onClick={handlerAddToCart} />
