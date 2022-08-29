@@ -3,9 +3,11 @@ import { useLocation } from 'react-router-dom'
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ForModalContext } from '../../../../contexts/forModalContext';
 import './product_window.scss';
+import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 
 function Product_window() {
     const { catalog } = useContext(ForModalContext);
+    const { totalPrice, settotalPrice } = useContext(ForInnerDataContext);
     const catalog_space = useRef(null);
     const image_space = useRef(null);
     const location = useLocation();
@@ -28,6 +30,31 @@ function Product_window() {
     }
     function handlerImageHoverOff() {
         image_space.current.classList.remove('img_hover');
+    }
+    function handlerAddToCart() {
+        const id = parseInt(prodInfo.id);
+        const name = prodInfo.name;
+        const price = parseInt(prodInfo.price);
+        const image_url = prodInfo.image_url;
+        const count = 1;
+        const data = {id, name, price, image_url, count}
+        if (localStorage.getItem('cartInfo') == null) {
+            localStorage.setItem('cartInfo', JSON.stringify([data]));
+        } else {
+            const cart_array = JSON.parse(localStorage.getItem('cartInfo'));
+            let close_count = 0;
+            cart_array.forEach(e => {
+                if (e.id == prodInfo.id) {
+                    close_count++;
+                }
+            });
+            if (close_count > 0) {
+                return;
+            }
+            cart_array.push(data);
+            localStorage.setItem('cartInfo', JSON.stringify(cart_array));
+        }
+        settotalPrice(totalPrice + 1);
     }
 
 
@@ -74,7 +101,7 @@ function Product_window() {
                         <div className="product_name">{prodInfo.name}</div>
                         <div className="price_box">
                             <div className="product_price">{prodInfo.price} ₴</div>
-                            <div className="add_to_cart_button">
+                            <div className="add_to_cart_button" onClick={handlerAddToCart}>
                                 <img src={require('../../../Images/cart.png')} alt="" />
                             </div>
                         </div>

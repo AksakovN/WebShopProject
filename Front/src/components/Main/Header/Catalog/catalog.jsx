@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect } from 'react';
 import { ForModalContext } from '../../../../contexts/forModalContext';
 import { ForRequestsContext } from '../../../../contexts/forRequestsContext';
 import './catalog.scss';
 import Catalog_row from './Catalog_rows/catalog_row';
 
 function Catalog() {
-    const { catalog, setcatalog } = useContext(ForModalContext);
+    const { setcatalog } = useContext(ForModalContext);
     const { getCatalog, setgetCatalog, getSubcategory, setgetSubcategory } = useContext(ForRequestsContext);
 
     function handlerBurgerHoverLeave() {

@@ -6,7 +6,7 @@ import Subcatalog from './Subcatalog/subcatalog';
 function Catalog_row({ marker }) {
     const row = useRef(null);
     const subcatalog = useRef(null);
-    const { getSubcategory, setgetSubcategory } = useContext(ForRequestsContext);
+    const { getSubcategory } = useContext(ForRequestsContext);
     const [subCat, setsubCat] = useState([]);
 
     function handlerForSubcatalog() {

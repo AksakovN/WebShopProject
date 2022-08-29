@@ -28,4 +28,10 @@ class ProductController extends Controller
         $prod = Product::where('subcategory_id', $req->id)->get();
         return $prod;
     }
+
+    public function forMain() 
+    {
+        return Product::where('forMain', 0)->inRandomOrder()->limit(6)->get();
+        
+    }
 }

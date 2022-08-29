@@ -20,11 +20,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('products', 'App\Http\Controllers\ProductController@index');
+Route::get('products_for_main', 'App\Http\Controllers\ProductController@forMain');
 
 Route::get('categories', 'App\Http\Controllers\CategoryController@index');
 Route::get('subcategories', 'App\Http\Controllers\SubcategoryController@index');
 Route::post('product', 'App\Http\Controllers\ProductController@getProduct');
 Route::post('productsByCategory', 'App\Http\Controllers\ProductController@getByCategory');
+
 
 
 

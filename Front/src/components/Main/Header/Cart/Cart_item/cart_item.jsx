@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ForInnerDataContext } from '../../../../../contexts/forInnerDataContext';
-import { ForRequestsContext } from '../../../../../contexts/forRequestsContext';
 import './cart_item.scss';
 
 function Cart_item({ mark, index }) {
