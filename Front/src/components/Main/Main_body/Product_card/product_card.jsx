@@ -42,7 +42,7 @@ function Product_card({ marker }) {
     }
 
     useEffect(() => {
-        // setimg(marker.image_url);
+        setimg(marker.image_url);
     }, [img])
     
 

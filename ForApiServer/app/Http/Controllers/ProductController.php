@@ -12,21 +12,20 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $req)
     {
-        return Product::all();
+        return Product::paginate($req->limit);
     }
 
     public function getProduct(Request $req) 
     {
-        $prod = Product::find($req->id);
-        return $prod;
+        return Product::find($req->id);
     }
 
     public function getByCategory(Request $req) 
     {
-        $prod = Product::where('subcategory_id', $req->id)->get();
-        return $prod;
+        return  Product::where('subcategory_id', $req->id)->paginate($req->limit);
+        
     }
 
     public function forMain() 
@@ -34,4 +33,15 @@ class ProductController extends Controller
         return Product::where('forMain', 0)->inRandomOrder()->limit(6)->get();
         
     }
+
+    public function searchProducts(Request $req){
+        $result = Product::where('name', 'like', '%'. $req->text. '%')->paginate($req->limit);
+        if(count($result)){
+            return Response()->json($result);
+           }
+           else
+           {
+           return response()->json(['Result' => '404'], 404);
+         }
+       }
 }

@@ -6,12 +6,14 @@ import './subcatalog.scss';
 
 function Subcatalog({ marker }) {
     const navigate = useNavigate();
-    const { setproducts } = useContext(ForRequestsContext);
+    const { setproducts, setproductsPage } = useContext(ForRequestsContext);
 
     function handlerRedirectOnCat() {
-        axios.post('http://127.0.0.1:8000/api/productsByCategory', {id:marker.id})
+        console.log(marker.id);
+        axios.post('http://127.0.0.1:8000/api/productsByCategory', {id: marker.id, limit:12})
         .then((resp) => {
-            setproducts(resp.data)
+            setproducts(resp.data.data);
+            setproductsPage(resp.data);
         })
         .catch((error) => {
             console.log(error);

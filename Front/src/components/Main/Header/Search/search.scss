@@ -3,7 +3,6 @@
     .s_area{
         width: 530px;
         height: 50px;
-        // margin-left: 150px;
         background-color: #fff;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px;
@@ -24,6 +23,21 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
+        .search_response{
+            position: absolute;
+            left: -530px;
+            width: max-content;
+            height: 40px;
+            color: red;
+            font-size: 22px;
+            font-weight: 700;
+            display: none;
+            text-align: left;
+            line-height: 40px;
+            z-index: 1000;
+            pointer-events: none;
+        }
         img{
             width: 40px;
             transition: 0.3s;

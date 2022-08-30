@@ -25,6 +25,7 @@ Route::get('products_for_main', 'App\Http\Controllers\ProductController@forMain'
 Route::get('categories', 'App\Http\Controllers\CategoryController@index');
 Route::get('subcategories', 'App\Http\Controllers\SubcategoryController@index');
 Route::post('product', 'App\Http\Controllers\ProductController@getProduct');
+Route::post('search', 'App\Http\Controllers\ProductController@searchProducts');
 Route::post('productsByCategory', 'App\Http\Controllers\ProductController@getByCategory');
 
 

@@ -45,7 +45,6 @@ function Main_window_carousel() {
                 }}
                 modules={[Autoplay, Pagination]}
                 className="mySwiper"
-                onSwiper={(swiper) => console.log(swiper)}
             >
                 {!!products && products.map((e) => <SwiperSlide key={e.id}><Product_card  marker={e} /></SwiperSlide>)}
             </Swiper>
