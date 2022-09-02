@@ -1,0 +1,3 @@
+User: Admin
+Email: administrator@mail.com
+Password: qwer1234

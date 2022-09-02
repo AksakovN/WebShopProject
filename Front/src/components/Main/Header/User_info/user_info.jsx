@@ -6,9 +6,9 @@ import './user_info.scss';
 function User_info() {
     return (
         <div className='user_info'>
-            <Favourite_button/>
+            <Account_button/> 
             <Cart_button/>
-            <Account_button/>
+            <Favourite_button/>
         </div>
     );
 }

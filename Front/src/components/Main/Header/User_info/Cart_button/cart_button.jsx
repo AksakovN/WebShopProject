@@ -11,7 +11,7 @@ function Cart_button() {
     const { cart, setcart } = useContext(ForModalContext);
     const { totalPrice } = useContext(ForInnerDataContext);
 
-    function handlerCartOpen() {
+    function handlerUserPanelOpen() {
         setcart(true);
     }
 
@@ -30,7 +30,7 @@ function Cart_button() {
     return (
         <div className='cart_button'>
             <img src={require("../../../../Images/cart.png")} alt="cartButton" 
-            ref={cart_button} onMouseEnter={handlerCartOpen}/>
+            ref={cart_button} onMouseEnter={handlerUserPanelOpen}/>
             <div className="cart_size" ref={cart_size}>{cart_count}</div>
             {cart ? <Cart/> : ''}
         </div>

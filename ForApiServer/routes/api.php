@@ -27,6 +27,13 @@ Route::get('subcategories', 'App\Http\Controllers\SubcategoryController@index');
 Route::post('product', 'App\Http\Controllers\ProductController@getProduct');
 Route::post('search', 'App\Http\Controllers\ProductController@searchProducts');
 Route::post('productsByCategory', 'App\Http\Controllers\ProductController@getByCategory');
+Route::post('register', 'App\Http\Controllers\Api_usersController@register');
+Route::post('login', 'App\Http\Controllers\Api_usersController@login');
+Route::post('addFav', 'App\Http\Controllers\Api_usersController@addToFav')->middleware('auth:sanctum');
+Route::post('me', 'App\Http\Controllers\Api_usersController@me')->middleware('auth:sanctum');
+Route::post('logout', 'App\Http\Controllers\Api_usersController@logout')->middleware('auth:sanctum');
+
+
 
 
 

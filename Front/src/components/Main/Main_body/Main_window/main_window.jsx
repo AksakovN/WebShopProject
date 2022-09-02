@@ -31,12 +31,12 @@ function Main_window() {
         if (products.length < 1) {
             prodRequest();
         }
-        if (catalog == true) {
+        if (catalog === true) {
             catalog_space.current.style.display = 'block';
         } else {
             catalog_space.current.style.display = 'none';
         }
-        if (location.pathname == '/') {
+        if (location.pathname === '/') {
             setisOnCat(true);
         } else {
             setisOnCat(false);

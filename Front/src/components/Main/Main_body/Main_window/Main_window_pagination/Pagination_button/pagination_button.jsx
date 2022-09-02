@@ -11,11 +11,11 @@ function Pagination_button({ e, page_info, pages }) {
     function handlerForNewPage(e) {
         const target = e.target.innerText;
         let url = '';
-        if (target == page_info.current_page) {
+        if (target === page_info.current_page) {
             return;
-        } else if (target == '<') {
+        } else if (target === '<') {
             url = 'http://127.0.0.1:8000/api/products?limit=12';
-        } else if (target == '>') {
+        } else if (target === '>') {
             url = `${page_info.last_page_url}&limit=12`;
         } else {
             url = `${pages[target].url}&limit=12`;
@@ -48,8 +48,8 @@ function Pagination_button({ e, page_info, pages }) {
     function convert_to_html(str) {
         let newstr = '';
         const oldstr = str.indexOf('&');
-        if (oldstr != -1) {
-            if (oldstr == 0) {
+        if (oldstr !== -1) {
+            if (oldstr === 0) {
                 newstr = '<';
             } else {
                 newstr = '>';
@@ -60,7 +60,7 @@ function Pagination_button({ e, page_info, pages }) {
         return newstr;
     }
     useEffect(() => {
-        if (page_info.current_page == e.label) {
+        if (page_info.current_page === e.label) {
             button.current.style.filter = 'contrast(50%)';
         } 
     }, [checker])

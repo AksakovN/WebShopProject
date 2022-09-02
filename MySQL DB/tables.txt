@@ -29,4 +29,21 @@ reserved(string)
 
 
 
-commentary/users???
+commentary
+//////////
+id(pk)
+product_id(fk)
+user_id(fk)
+body(string)
+date(timestamps!!)
+
+
+
+users??name
+/////
+id(pk)
+login(string)
+email(string)
+password(string)
+phone_number(char)
+access_token(string)??

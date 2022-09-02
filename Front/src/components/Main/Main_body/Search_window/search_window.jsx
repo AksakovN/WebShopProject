@@ -8,7 +8,7 @@ import './search_window.scss';
 function Search_window() {
     const catalog_space = useRef(null);
     const { catalog } = useContext(ForModalContext);
-    const { products, setproducts, productsPage, setproductsPage } = useContext(ForRequestsContext);
+    const { products, productsPage, } = useContext(ForRequestsContext);
 
     useEffect(() => {
         if (catalog == true) {
