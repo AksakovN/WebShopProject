@@ -1,6 +1,6 @@
 import './phone_number_input.scss';
 
-function Phone_number_input() {
+function Phone_number_input({num_value}) {
     const isNumericInput = (e) => {
         const key = e.keyCode;
         return ((key >= 48 && key <= 57) ||
@@ -37,10 +37,11 @@ function Phone_number_input() {
         if (input.length > 6) { e.target.value = `(${areaCode}) ${middle} - ${last}`; }
         else if (input.length > 3) { e.target.value = `(${areaCode}) ${middle}`; }
         else if (input.length > 0) { e.target.value = `(${areaCode}`; }
+        num_value(e.target.value);
     };
     return (
         <div>
-            <input id="phoneNumber" onKeyDown={enforceFormat} onKeyUp={formatToPhone} maxlength="16" required/>
+            <input id="phoneNumber" onKeyDown={enforceFormat} onKeyUp={formatToPhone} maxLength="16" required/>
         </div>
     );
 }

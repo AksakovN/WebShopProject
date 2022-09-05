@@ -26,6 +26,7 @@ class Api_usersController extends Controller
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'phone_number' => $req->number,
+            ''
         ]);
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([
@@ -63,7 +64,7 @@ class Api_usersController extends Controller
     }
 
     public function me(Request $req){
-        return $req->user();     
+        return $req->user()->fav_id;     
     }
 
     public function logout(Request $req)

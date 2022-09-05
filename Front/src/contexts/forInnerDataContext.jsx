@@ -4,6 +4,7 @@ export const ForInnerDataContext = React.createContext({});
 export default function ForInnerDataContextProvider({ children }) {
     const [totalPrice, settotalPrice] = useState(0);
     const [prodId, setprodId] = useState(null);
+    const [loginInfo, setloginInfo] = useState(false);
     
 
     return (
@@ -11,6 +12,7 @@ export default function ForInnerDataContextProvider({ children }) {
             value={{
                 totalPrice, settotalPrice,
                 prodId, setprodId,
+                loginInfo, setloginInfo,
             }}
         >
             {children}

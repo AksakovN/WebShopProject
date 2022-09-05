@@ -9,7 +9,6 @@ function Subcatalog({ marker }) {
     const { setproducts, setproductsPage } = useContext(ForRequestsContext);
 
     function handlerRedirectOnCat() {
-        console.log(marker.id);
         axios.post('http://127.0.0.1:8000/api/productsByCategory', {id: marker.id, limit:12})
         .then((resp) => {
             setproducts(resp.data.data);
