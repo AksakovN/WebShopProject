@@ -1,4 +1,7 @@
+import Cookies from 'js-cookie';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ForInnerDataContext } from '../../../contexts/forInnerDataContext';
 import Burger from './Burger/burger';
 import './header.scss';
 import Search from './Search/search';
@@ -6,10 +9,20 @@ import User_info from './User_info/user_info';
 
 function Header() {
     const navigate = useNavigate();
+    const { loginInfo, setloginInfo } = useContext(ForInnerDataContext);
 
     function handlerredirectOnMain() {
         navigate('/');
     }
+
+    useEffect(() => {
+        if (Cookies.get('token') != undefined) {
+            setloginInfo(true);
+        } else {
+            setloginInfo(false);
+        }
+    }, [loginInfo])
+
     return (
         <nav>
             <Burger />

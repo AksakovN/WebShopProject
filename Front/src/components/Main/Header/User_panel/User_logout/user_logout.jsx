@@ -1,12 +1,14 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
+import { ForInnerDataContext } from '../../../../../contexts/forInnerDataContext';
 import { ForModalContext } from '../../../../../contexts/forModalContext';
 import Phone_number_input from './Phone_number_input/phone_number_input';
 import './user_logout.scss';
 
 function User_logout() {
     const { setuserPanel } = useContext(ForModalContext);
+    const { setloginInfo } = useContext(ForInnerDataContext);
     const [switchLogin, setswitchLogin] = useState(false);
     const [vrongEmail, setvrongEmail] = useState(false);
     const [existedEmail, setexistedEmail] = useState(false);
@@ -36,6 +38,7 @@ function User_logout() {
         axios.post('http://127.0.0.1:8000/api/register', { login: login, password: password, email: email, number: number })
             .then((resp) => {
                 Cookies.set('token', resp.data.access_token, { expires: 1 });   
+                setloginInfo(true);
             })
             .catch((error) => {
                 setexistedEmail(true);
@@ -49,10 +52,8 @@ function User_logout() {
                     setvrongPassword(true);
                 } else {
                     Cookies.set('token', resp.data.access_token, { expires: 1 });
+                    setloginInfo(true);
                 }
-            })
-            .catch((error) => {
-                
             })
     }
     function resetErrors() {
@@ -91,10 +92,9 @@ function User_logout() {
                 setwrondLogin(true);
                 return;
             }
-            setuserPanel(false);
+            setuserPanel(false);    
             registerAccData(textRef.current.value, password, email, number_value);       
         } else {
-            setuserPanel(false);
             loginAcc(email, password);          
         }
     }

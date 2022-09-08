@@ -37,7 +37,7 @@ function Product_window() {
         const price = parseInt(prodInfo.price);
         const image_url = prodInfo.image_url;
         const count = 1;
-        const data = {id, name, price, image_url, count}
+        const data = { id, name, price, image_url, count }
         if (localStorage.getItem('cartInfo') == null) {
             localStorage.setItem('cartInfo', JSON.stringify([data]));
         } else {
@@ -64,8 +64,8 @@ function Product_window() {
                 getProduct();
             } else {
                 setprodInfo(JSON.parse(localStorage.getItem('productInfo')));
-            }        
-        } 
+            }
+        }
         if (catalog == true) {
             catalog_space.current.style.display = 'block';
         } else {
@@ -73,47 +73,43 @@ function Product_window() {
         }
     }, [catalog, prodInfo])
 
-
     return (
-        <div className='wrapper'>
-            <div className='header_space'></div>
-            <div className="main_space">
-                <div className='catalog_space' ref={catalog_space}></div>
-                <div className='product_body'>
-                    <div className="img_part">
-                        <div className="img_space" ref={image_space}>
-                            <img src={prodInfo.image_url} alt=""
-                                onClick={handlerImageHoverOn}
-                                onMouseLeave={handlerImageHoverOff}
-                            />
+        <div className="main_space">
+            <div className='catalog_space' ref={catalog_space}></div>
+            <div className='product_body'>
+                <div className="img_part">
+                    <div className="img_space" ref={image_space}>
+                        <img src={prodInfo.image_url} alt=""
+                            onClick={handlerImageHoverOn}
+                            onMouseLeave={handlerImageHoverOff}
+                        />
+                    </div>
+                    <div className="img_footer">
+                        <div className="rating">
+                            mb rating
                         </div>
-                        <div className="img_footer">
-                            <div className="rating">
-                                mb rating
-                            </div>
-                            <div className="add_to_fav">
-                                <img src={require("../../../Images/favourite_b.png")} alt="" />
-                                Add to favourite
-                            </div>
+                        <div className="add_to_fav">
+                            <img src={require("../../../Images/favourite_b.png")} alt="" />
+                            Add to favourite
                         </div>
                     </div>
-                    <div className="info_part">
-                        <div className="product_name">{prodInfo.name}</div>
-                        <div className="price_box">
-                            <div className="product_price">{prodInfo.price} ₴</div>
-                            <div className="add_to_cart_button" onClick={handlerAddToCart}>
-                                <img src={require('../../../Images/cart.png')} alt="" />
-                            </div>
-                        </div>
-                        <div className="description">
-                            {prodInfo.description}
-                        </div>
-                    </div>
-                    <div className="commentary_part">
-                        commentary here
-                    </div>
-
                 </div>
+                <div className="info_part">
+                    <div className="product_name">{prodInfo.name}</div>
+                    <div className="price_box">
+                        <div className="product_price">{prodInfo.price} ₴</div>
+                        <div className="add_to_cart_button" onClick={handlerAddToCart}>
+                            <img src={require('../../../Images/cart.png')} alt="" />
+                        </div>
+                    </div>
+                    <div className="description">
+                        {prodInfo.description}
+                    </div>
+                </div>
+                <div className="commentary_part">
+                    commentary here
+                </div>
+
             </div>
         </div>
     );

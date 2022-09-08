@@ -9,13 +9,16 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Routes>
-        <Route path='/' element={<Main_window />} />
-        <Route path='/:category' element={<Main_window />} />
-        <Route path='/product/:id' element={<Product_window />} />
-        <Route path='/search' element={<Search_window />} />
-        
-      </Routes>
+      <div className="wrapper">
+        <div className='header_space'></div>
+        <Routes>
+          <Route path='/' element={<Main_window />} />
+          <Route path='/:category' element={<Main_window />} />
+          <Route path='/product/:id' element={<Product_window />} />
+          <Route path='/search' element={<Search_window />} />
+
+        </Routes>
+      </div>
     </div>
   );
 }

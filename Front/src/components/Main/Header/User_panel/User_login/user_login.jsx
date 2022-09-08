@@ -8,7 +8,7 @@ function User_login() {
     const { setloginInfo } = useContext(ForInnerDataContext);
 
     function userLogout() {
-        const token = Cookies.get('token');
+        const token = Cookies.get('token');       
         const config = {
             headers: { Authorization: `Bearer ${token}` }
         };
@@ -16,8 +16,7 @@ function User_login() {
     }
 
 
-    function handlerForUserLogout(e) {
-        e.preventDefault();
+    function handlerForUserLogout() {
         userLogout();
         Cookies.remove('token');
         setloginInfo(false);

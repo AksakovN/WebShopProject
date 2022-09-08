@@ -44,18 +44,15 @@ function Main_window() {
     }, [catalog, products, productsPage])
 
     return (
-        <div className="wrapper">
-            <div className='header_space'></div>
-            <div className="main_space">
-                <div className='catalog_space' ref={catalog_space}></div>
-                <div className='main_body'>
-                    {!!isOnCat ? <div className="carousel">
-                        <Main_window_carousel />
-                    </div> : ''}
-                    {!!isOnCat ? <p> For Sale!</p> : ''}
-                    {!!products && products.map((e) => <Product_card key={e.id} marker={e} />)}
-                    {productsPage.length < 1 ? '' : <Main_window_pagination page_info={productsPage}/>}
-                </div>
+        <div className="main_space">
+            <div className='catalog_space' ref={catalog_space}></div>
+            <div className='main_body'>
+                {!!isOnCat ? <div className="carousel">
+                    <Main_window_carousel />
+                </div> : ''}
+                {!!isOnCat ? <p> For Sale!</p> : ''}
+                {!!products && products.map((e) => <Product_card key={e.id} marker={e} />)}
+                {productsPage.length < 1 ? '' : <Main_window_pagination page_info={productsPage} />}
             </div>
         </div>
     );

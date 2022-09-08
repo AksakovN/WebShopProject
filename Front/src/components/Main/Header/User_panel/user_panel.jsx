@@ -1,5 +1,4 @@
-import { useContext, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import { useContext } from 'react';
 import { ForModalContext } from '../../../../contexts/forModalContext';
 import './user_panel.scss';
 import User_login from './User_login/user_login';
@@ -8,19 +7,11 @@ import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 
 function User_panel() {
     const { setuserPanel } = useContext(ForModalContext);
-    const { loginInfo, setloginInfo } = useContext(ForInnerDataContext);
+    const { loginInfo } = useContext(ForInnerDataContext);
 
     function handlerCartClose() {
         setuserPanel(false);
     }
-
-    useEffect(() => {
-        if (Cookies.get('token') != undefined) {
-            setloginInfo(true);
-        } else {
-            setloginInfo(false);
-        }
-    }, [loginInfo])
 
     return (
         <div className='cart_wrapper' onMouseLeave={handlerCartClose}>

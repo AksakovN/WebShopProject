@@ -26,7 +26,7 @@ class Api_usersController extends Controller
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'phone_number' => $req->number,
-            ''
+            'fav_id' => 0,
         ]);
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([
@@ -59,7 +59,7 @@ class Api_usersController extends Controller
     }
     public function addToFav(Request $req){
         $curr_user = Api_users::find($req->user()->id);
-        $curr_user->fav_id = $req->fav_id;
+        $curr_user->fav_id = $req->id;
         $curr_user->save();
     }
 
