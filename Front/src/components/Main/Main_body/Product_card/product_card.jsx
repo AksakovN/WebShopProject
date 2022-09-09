@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
@@ -29,14 +27,6 @@ function Product_card({ marker }) {
 
     }
 
-    function setFavProducts(FavData) {
-        const token = Cookies.get('token');
-        const config = {
-            headers: { Authorization: `Bearer ${token}` }
-        };
-        axios.post('http://127.0.0.1:8000/api/addFav', { id: FavData }, config)
-    }
-
     function addToLocal(LocalName, data) {
         let JsonData = '';
         if (LocalName == 'cartInfo') {
@@ -45,9 +35,6 @@ function Product_card({ marker }) {
             JsonData = { id: marker.id };
         }
         if (localStorage.getItem(LocalName) == null) {
-            if (LocalName == 'favProducts') {
-                setFavProducts([JsonData]);
-            }
             localStorage.setItem(LocalName, JSON.stringify([JsonData]));
         } else {
             const LocalArray = JSON.parse(localStorage.getItem(LocalName));
@@ -62,7 +49,6 @@ function Product_card({ marker }) {
                     setisInFav(false);
                     const newLocalArray = LocalArray.filter(function (e) { return e.id != close_count });
                     const LocalData = JSON.stringify(newLocalArray);
-                    setFavProducts(LocalData);/// убрать в кнопку Fav
                     localStorage.setItem(LocalName, LocalData);
                     setfavInfo(favInfo + 1);
                 }
@@ -71,7 +57,6 @@ function Product_card({ marker }) {
                 LocalArray.push(JsonData);
                 const LocalData = JSON.stringify(LocalArray);
                 if (LocalName == 'favProducts') {
-                    setFavProducts(LocalData);/// убрать в кнопку Fav
                     setisInFav(true);
                     setfavInfo(favInfo + 1);
                 }
@@ -119,7 +104,7 @@ function Product_card({ marker }) {
                 <img src={require("../../../Images/cart.png")} alt="addToCart" onClick={handlerAddToCart} />
             </div>
             <div className="product_card_titles">
-                <div className="title_for_name">
+                <div className="title_for_name" onClick={handlerRedirectOnProd}>
                     {marker.name}
                 </div>
                 <div className="title_for_price">

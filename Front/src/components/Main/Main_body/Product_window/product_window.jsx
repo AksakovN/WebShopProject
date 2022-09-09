@@ -7,7 +7,8 @@ import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 
 function Product_window() {
     const { catalog } = useContext(ForModalContext);
-    const { totalPrice, settotalPrice } = useContext(ForInnerDataContext);
+    const { totalPrice, settotalPrice, loginInfo, favInfo, setfavInfo } = useContext(ForInnerDataContext);
+    const [isInFav, setisInFav] = useState(false);
     const catalog_space = useRef(null);
     const image_space = useRef(null);
     const location = useLocation();
@@ -25,38 +26,79 @@ function Product_window() {
             })
     }
 
+    function checkIfFav() {
+        if (localStorage.getItem('favProducts') !== null) {
+            const LocalArray = JSON.parse(localStorage.getItem('favProducts'));
+            LocalArray.forEach(e => {
+                if (e.id == prodInfo.id) {
+                    setisInFav(true);
+                }
+            });
+        }
+    }
+
     function handlerImageHoverOn() {
         image_space.current.classList.add('img_hover');
     }
+
     function handlerImageHoverOff() {
         image_space.current.classList.remove('img_hover');
     }
+
+    function addToLocal(LocalName, data) {
+        let JsonData = '';
+        if (LocalName == 'cartInfo') {
+            JsonData = data;
+        } else {
+            JsonData = { id: prodInfo.id };
+        }
+        if (localStorage.getItem(LocalName) == null) {
+            localStorage.setItem(LocalName, JSON.stringify([JsonData]));
+        } else {
+            const LocalArray = JSON.parse(localStorage.getItem(LocalName));
+            let close_count = 0;
+            LocalArray.forEach(e => {
+                if (e.id == prodInfo.id) {
+                    close_count = e.id;
+                }
+            });
+            if (close_count > 0) {
+                if (LocalName == 'favProducts') {
+                    setisInFav(false);
+                    const newLocalArray = LocalArray.filter(function (e) { return e.id != close_count });
+                    const LocalData = JSON.stringify(newLocalArray);
+                    localStorage.setItem(LocalName, LocalData);
+                    setfavInfo(favInfo + 1);
+                }
+                return;
+            } else {
+                LocalArray.push(JsonData);
+                const LocalData = JSON.stringify(LocalArray);
+                if (LocalName == 'favProducts') {
+                    setisInFav(true);
+                    setfavInfo(favInfo + 1);
+                }
+                localStorage.setItem(LocalName, LocalData);
+            }
+        }
+    }
+
+    function handlerAddToFav() {
+        if (loginInfo) {
+            addToLocal('favProducts', '');
+        }
+    }
+
     function handlerAddToCart() {
         const id = parseInt(prodInfo.id);
         const name = prodInfo.name;
         const price = parseInt(prodInfo.price);
         const image_url = prodInfo.image_url;
         const count = 1;
-        const data = { id, name, price, image_url, count }
-        if (localStorage.getItem('cartInfo') == null) {
-            localStorage.setItem('cartInfo', JSON.stringify([data]));
-        } else {
-            const cart_array = JSON.parse(localStorage.getItem('cartInfo'));
-            let close_count = 0;
-            cart_array.forEach(e => {
-                if (e.id == prodInfo.id) {
-                    close_count++;
-                }
-            });
-            if (close_count > 0) {
-                return;
-            }
-            cart_array.push(data);
-            localStorage.setItem('cartInfo', JSON.stringify(cart_array));
-        }
+        const data = { id, name, price, image_url, count };
+        addToLocal('cartInfo', data);
         settotalPrice(totalPrice + 1);
     }
-
 
     useEffect(() => {
         if (prodInfo.length < 1) {
@@ -71,12 +113,20 @@ function Product_window() {
         } else {
             catalog_space.current.style.display = 'none';
         }
+        if (loginInfo) {               
+            setTimeout(() => {
+                checkIfFav();
+            }, 1000);
+        } else {
+            setisInFav(false);
+        }
     }, [catalog, prodInfo])
 
     return (
         <div className="main_space">
             <div className='catalog_space' ref={catalog_space}></div>
             <div className='product_body'>
+                {/* добавить свайпер с рекламой? */}
                 <div className="img_part">
                     <div className="img_space" ref={image_space}>
                         <img src={prodInfo.image_url} alt=""
@@ -89,8 +139,9 @@ function Product_window() {
                             mb rating
                         </div>
                         <div className="add_to_fav">
-                            <img src={require("../../../Images/favourite_b.png")} alt="" />
-                            Add to favourite
+                            <img src={require(isInFav ? "../../../Images/checkB.png" : "../../../Images/favourite_b.png")}
+                             alt="favourite button" onClick={handlerAddToFav}/>
+                            {isInFav ? 'Added' : 'Add to favourite'}
                         </div>
                     </div>
                 </div>

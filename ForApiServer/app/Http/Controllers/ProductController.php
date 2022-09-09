@@ -44,4 +44,13 @@ class ProductController extends Controller
            return response()->json(['Result' => '404'], 404);
          }
        }
+    
+       public function favouriteProducts(Request $req){
+        $prodArray = [];
+        foreach ($req->array as $value) {
+            $result = Product::where('id', 'like', $value['id'])->get();
+            $prodArray[] = $result; 
+        }
+            return Response()->json($prodArray);
+    }
 }

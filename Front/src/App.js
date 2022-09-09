@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import './App.css';
 import Header from "./components/Main/Header/header";
+import Favourite_window from "./components/Main/Main_body/Favourite_window/favourite_window";
 import Main_window from "./components/Main/Main_body/Main_window/main_window";
 import Product_window from "./components/Main/Main_body/Product_window/product_window";
 import Search_window from "./components/Main/Main_body/Search_window/search_window";
@@ -16,6 +17,7 @@ function App() {
           <Route path='/:category' element={<Main_window />} />
           <Route path='/product/:id' element={<Product_window />} />
           <Route path='/search' element={<Search_window />} />
+          <Route path='/favourite' element={<Favourite_window />} />
 
         </Routes>
       </div>
