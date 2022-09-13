@@ -10,14 +10,12 @@ function Main_window_pagination({ page_info }) {
     useEffect(() => {
         setpages(page_info.links);
     }, [productsPage])
-    
 
     return (
         <div>
             <div className="pagination_space">
                 {!!pages && pages.map((e) => <Pagination_button key={e.label} e={e} page_info={page_info} pages={pages}/>)}
             </div>
-
         </div>
     );
 }

@@ -37,7 +37,8 @@ function User_logout() {
     function registerAccData(login, password, email, number) {
         axios.post('http://127.0.0.1:8000/api/register', { login: login, password: password, email: email, number: number })
             .then((resp) => {
-                Cookies.set('token', resp.data.access_token, { expires: 1 });   
+                Cookies.set('token', resp.data.access_token, { expires: 1 }); 
+                Cookies.set('userInfo', [resp.data.login, resp.data.id], { expires: 1 });  
                 setloginInfo(true);
             })
             .catch((error) => {
@@ -52,6 +53,7 @@ function User_logout() {
                     setvrongPassword(true);
                 } else {
                     Cookies.set('token', resp.data.access_token, { expires: 1 });
+                    Cookies.set('userInfo', [`${resp.data.login}/${resp.data.id}`], { expires: 1 });
                     setloginInfo(true);
                 }
             })

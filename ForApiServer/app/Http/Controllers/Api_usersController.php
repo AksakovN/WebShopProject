@@ -32,7 +32,9 @@ class Api_usersController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-        ]);;
+            'login' => $user->login,
+            'id' => $user->id,
+        ]);
     }
 
     public function login(Request $req)
@@ -50,6 +52,8 @@ class Api_usersController extends Controller
             return response()->json([
                 'access_token' => $token,
                 'token_type' => 'Bearer',
+                'login' => $user->login,
+                'id' => $user->id,
             ]);
         } else {
             return response()->json([
@@ -57,6 +61,7 @@ class Api_usersController extends Controller
             ]);
         }
     }
+
     public function addToFav(Request $req){
         $curr_user = Api_users::find($req->user()->id);
         $curr_user->fav_id = $req->id;

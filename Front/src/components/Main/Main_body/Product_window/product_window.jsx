@@ -1,9 +1,11 @@
 import axios from 'axios';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ForModalContext } from '../../../../contexts/forModalContext';
 import './product_window.scss';
 import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
+import Commentary_section from './Commetary_section/commentary_section';
+import { Rating } from 'react-simple-star-rating';
 
 function Product_window() {
     const { catalog } = useContext(ForModalContext);
@@ -11,15 +13,30 @@ function Product_window() {
     const [isInFav, setisInFav] = useState(false);
     const catalog_space = useRef(null);
     const image_space = useRef(null);
+    const commentAnim = useRef(null);
     const location = useLocation();
     const [prodInfo, setprodInfo] = useState([]);
+    const [rating, setRating] = useState(0);
+    const [commentaryShown, setcommentaryShown] = useState(false);
+    const [commentaryData, setcommentaryData] = useState([]);
 
     function getProduct() {
         const item_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
         axios.post('http://127.0.0.1:8000/api/product', { id: item_id })
             .then((resp) => {
                 setprodInfo(resp.data);
+                console.log(resp.data.rating);
                 localStorage.setItem('productInfo', JSON.stringify(resp.data));
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+    function getCommentaries() {
+        axios.post('http://127.0.0.1:8000/api/getCommentaries', { id: prodInfo.id })
+            .then((resp) => {
+                setcommentaryData(resp.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -100,6 +117,24 @@ function Product_window() {
         settotalPrice(totalPrice + 1);
     }
 
+    function handlerForShowCommentary() {
+        
+        if (commentaryShown == false) {
+            commentAnim.current.style.display = 'block';
+            getCommentaries();
+            setTimeout(() => {
+                commentAnim.current.style.display = 'none';
+                setcommentaryShown(!commentaryShown);
+                setTimeout(() => {
+                    window.scrollTo({top:1000, behavior: "smooth"})
+                }, 100);
+            }, 1000);
+        } else {
+            commentAnim.current.style.display = 'none';
+            setcommentaryShown(!commentaryShown);
+        }
+    }
+
     useEffect(() => {
         if (prodInfo.length < 1) {
             if (localStorage.getItem('productInfo') == null) {
@@ -113,13 +148,14 @@ function Product_window() {
         } else {
             catalog_space.current.style.display = 'none';
         }
-        if (loginInfo) {               
+        if (loginInfo) {
             setTimeout(() => {
                 checkIfFav();
             }, 1000);
         } else {
             setisInFav(false);
         }
+        setRating(prodInfo.rating);
     }, [catalog, prodInfo])
 
     return (
@@ -127,38 +163,50 @@ function Product_window() {
             <div className='catalog_space' ref={catalog_space}></div>
             <div className='product_body'>
                 {/* добавить свайпер с рекламой? */}
-                <div className="img_part">
-                    <div className="img_space" ref={image_space}>
-                        <img src={prodInfo.image_url} alt=""
-                            onClick={handlerImageHoverOn}
-                            onMouseLeave={handlerImageHoverOff}
-                        />
-                    </div>
-                    <div className="img_footer">
-                        <div className="rating">
-                            mb rating
+                <div className="left_section">
+                    <div className="img_part">
+                        <div className="img_space" ref={image_space}>
+                            <img src={prodInfo.image_url} alt=""
+                                onClick={handlerImageHoverOn}
+                                onMouseLeave={handlerImageHoverOff}
+                            />
                         </div>
-                        <div className="add_to_fav">
-                            <img src={require(isInFav ? "../../../Images/checkB.png" : "../../../Images/favourite_b.png")}
-                             alt="favourite button" onClick={handlerAddToFav}/>
-                            {isInFav ? 'Added' : 'Add to favourite'}
+                        <div className="img_footer">
+                            <div className="rating">
+                                <Rating ratingValue={rating * 10} allowHalfIcon={true} readonly={true} />  <p>{rating}</p>
+                            </div>
+                            <div className="add_to_fav">
+                                <img src={require(isInFav ? "../../../Images/checkB.png" : "../../../Images/favourite_b.png")}
+                                    alt="favourite button" onClick={handlerAddToFav} />
+                                {isInFav ? 'Added' : 'Add to favourite'}
+                            </div>
                         </div>
                     </div>
+                    <div className="commentary_button">
+                        <div className="open_commentary_button" onClick={handlerForShowCommentary}>
+                            {commentaryShown ? 'Hide rewiews' : `Show rewiews (${prodInfo.ratingEntries})`}
+                        </div>
+                    </div>
+                    <div className="commentary_anim" ref={commentAnim}>
+                        <hr/><hr/><hr/><hr/>
+                    </div>
+                    {commentaryShown ? <div className="commentary_part">
+                        <Commentary_section commentData={commentaryData} productId={prodInfo.id} />
+                    </div> : ''}
                 </div>
-                <div className="info_part">
-                    <div className="product_name">{prodInfo.name}</div>
-                    <div className="price_box">
-                        <div className="product_price">{prodInfo.price} ₴</div>
-                        <div className="add_to_cart_button" onClick={handlerAddToCart}>
-                            <img src={require('../../../Images/cart.png')} alt="" />
+                <div className="right_section">
+                    <div className="info_part">
+                        <div className="product_name">{prodInfo.name}</div>
+                        <div className="price_box">
+                            <div className="product_price">{prodInfo.price} ₴</div>
+                            <div className="add_to_cart_button" onClick={handlerAddToCart}>
+                                <img src={require('../../../Images/cart.png')} alt="" />
+                            </div>
+                        </div>
+                        <div className="description">
+                            {prodInfo.description}
                         </div>
                     </div>
-                    <div className="description">
-                        {prodInfo.description}
-                    </div>
-                </div>
-                <div className="commentary_part">
-                    commentary here
                 </div>
 
             </div>

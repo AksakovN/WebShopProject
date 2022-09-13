@@ -25,6 +25,8 @@ description(string)
 image_url(string)
 discounts(boolean)
 forMain(boolean)
+rating(char)
+ratingEntries(char)
 reserved(string)
 
 
@@ -33,17 +35,19 @@ commentary
 //////////
 id(pk)
 product_id(fk)
-user_id(fk)
+user_login(string)
 body(string)
 date(timestamps!!)
+rating(char)
+likes(char)
+dislikes(char)
 
 
 
-users??name
+users
 /////
 id(pk)
 login(string)
 email(string)
 password(string)
 phone_number(char)
-access_token(string)??

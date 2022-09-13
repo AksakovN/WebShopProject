@@ -38,6 +38,12 @@ Route::post('register', 'App\Http\Controllers\Api_usersController@register');
 
 Route::post('login', 'App\Http\Controllers\Api_usersController@login');
 
+Route::post('setCommentary', 'App\Http\Controllers\CommentaryController@setCommentary');
+
+Route::post('changeCommentary', 'App\Http\Controllers\CommentaryController@changeCommentary');
+
+Route::post('getCommentaries', 'App\Http\Controllers\CommentaryController@getCommentaries');
+
 Route::post('addFav', 'App\Http\Controllers\Api_usersController@addToFav')->middleware('auth:sanctum');
 
 Route::post('me', 'App\Http\Controllers\Api_usersController@me')->middleware('auth:sanctum');
