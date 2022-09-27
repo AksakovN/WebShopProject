@@ -6,6 +6,7 @@ import './product_window.scss';
 import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 import Commentary_section from './Commetary_section/commentary_section';
 import { Rating } from 'react-simple-star-rating';
+import Cookies from 'js-cookie';
 
 function Product_window() {
     const { catalog } = useContext(ForModalContext);
@@ -19,13 +20,14 @@ function Product_window() {
     const [rating, setRating] = useState(0);
     const [commentaryShown, setcommentaryShown] = useState(false);
     const [commentaryData, setcommentaryData] = useState([]);
+    const [addCommentarySection, setaddCommentarySection] = useState(true);
+    const [userCommentary, setuserCommentary] = useState([]);
 
     function getProduct() {
-        const item_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+        const item_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);   
         axios.post('http://127.0.0.1:8000/api/product', { id: item_id })
             .then((resp) => {
                 setprodInfo(resp.data);
-                console.log(resp.data.rating);
                 localStorage.setItem('productInfo', JSON.stringify(resp.data));
             })
             .catch((error) => {
@@ -34,12 +36,20 @@ function Product_window() {
     }
 
     function getCommentaries() {
-        axios.post('http://127.0.0.1:8000/api/getCommentaries', { id: prodInfo.id })
+        let Uid = '';
+        if (loginInfo) {
+            const userInfo = Cookies.get('userInfo');
+            Uid = userInfo.substring((userInfo.indexOf('/') + 1));
+        }
+        axios.post('http://127.0.0.1:8000/api/getCommentaries', { id: prodInfo.id, Uid:Uid })
             .then((resp) => {
-                setcommentaryData(resp.data);
-            })
-            .catch((error) => {
-                console.log(error);
+                setcommentaryData(resp.data.comment);
+                if (resp.data.userComment === null) {
+                    setaddCommentarySection(true);
+                    return;
+                }
+                setuserCommentary(resp.data.userComment); //null
+                setaddCommentarySection(false); 
             })
     }
 
@@ -117,8 +127,7 @@ function Product_window() {
         settotalPrice(totalPrice + 1);
     }
 
-    function handlerForShowCommentary() {
-        
+    function handlerForShowCommentary() {     
         if (commentaryShown == false) {
             commentAnim.current.style.display = 'block';
             getCommentaries();
@@ -130,12 +139,14 @@ function Product_window() {
                 }, 100);
             }, 1000);
         } else {
+            window.scrollTo({top:0, behavior: "smooth"});
             commentAnim.current.style.display = 'none';
             setcommentaryShown(!commentaryShown);
         }
     }
 
     useEffect(() => {
+        window.scrollTo({top:0, behavior: "smooth"});
         if (prodInfo.length < 1) {
             if (localStorage.getItem('productInfo') == null) {
                 getProduct();
@@ -149,14 +160,15 @@ function Product_window() {
             catalog_space.current.style.display = 'none';
         }
         if (loginInfo) {
+            getCommentaries();
             setTimeout(() => {
-                checkIfFav();
+                checkIfFav(); 
             }, 1000);
         } else {
             setisInFav(false);
         }
         setRating(prodInfo.rating);
-    }, [catalog, prodInfo])
+    }, [catalog, prodInfo, loginInfo])
 
     return (
         <div className="main_space">
@@ -191,7 +203,8 @@ function Product_window() {
                         <hr/><hr/><hr/><hr/>
                     </div>
                     {commentaryShown ? <div className="commentary_part">
-                        <Commentary_section commentData={commentaryData} productId={prodInfo.id} />
+                        <Commentary_section commentData={commentaryData} productId={prodInfo.id} 
+                        addCommentarySection={addCommentarySection} userCommentary={userCommentary}/>
                     </div> : ''}
                 </div>
                 <div className="right_section">

@@ -4,14 +4,16 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import TextareaAutosize from 'react-textarea-autosize';
 import { ForInnerDataContext } from '../../../../../contexts/forInnerDataContext';
+import { ForModalContext } from '../../../../../contexts/forModalContext';
 import Commentary from './Commentary/commentary';
 import './commentary_section.scss';
 
-function Commentary_section({ commentData, productId }) {
+function Commentary_section({ commentData, productId, addCommentarySection, userCommentary }) {
+    const { setuserPanel } = useContext(ForModalContext);
+    const [commentSection, setcommentSection] = useState(true);
     const { loginInfo } = useContext(ForInnerDataContext);
     const [rating, setrating] = useState(0);
     const [addCommentary, setaddCommentary] = useState(false);
-    const [addCommentarySection, setaddCommentarySection] = useState(false);
     const commentBody = useRef(null);
     const ratingRef = useRef(null);
 
@@ -31,25 +33,12 @@ function Commentary_section({ commentData, productId }) {
         axios.post('http://127.0.0.1:8000/api/setCommentary', { id: id, login: login, Uid: Uid, body: body, rating: ratingValue })
     }
 
-    function commentCheck() {
-        const userInfo = Cookies.get('userInfo');
-        const indexOfSl = userInfo.indexOf('/');
-        const Uid = userInfo.substring((indexOfSl + 1));
-        let count = 0;
-        commentData.forEach(e => {
-            if (e.id == Uid) {
-                count += 1;
-            }
-        });
-        if (count === 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     function handlerForShowAddCommentary() {
-        setaddCommentary(true);
+        if (loginInfo) {
+            setaddCommentary(true);
+        } else {
+            setuserPanel(true);
+        }     
     }
 
     function handlerForSendCommentary() {
@@ -60,10 +49,9 @@ function Commentary_section({ commentData, productId }) {
 
     useEffect(() => {
         if (loginInfo) {
-            const bool = commentCheck();
-            setaddCommentarySection(bool);
+            setcommentSection(addCommentarySection);
         } else {
-            setaddCommentarySection(false);
+            setcommentSection(true);
         }
     }, [loginInfo])
 
@@ -71,7 +59,7 @@ function Commentary_section({ commentData, productId }) {
 
     return (
         <div className='commentary_section'>
-            {addCommentarySection ? <div className="add_commentary_section">
+            {commentSection ? <div className="add_commentary_section">
                 {addCommentary ? '' : <div className="show_add_commentary_button" onClick={handlerForShowAddCommentary}>
                     Add rewiew
                 </div>}
@@ -89,8 +77,10 @@ function Commentary_section({ commentData, productId }) {
                         <div className='send_commentary_button' onClick={handlerForSendCommentary}>Send</div>
                     </div>
                 </div> : ''}
-            </div> : ''}
-            {commentData.length > 0 ? commentData.map((e) => <Commentary commentData={e} key={e.id} />) : ''}
+                
+            </div> : <div className='userCommentary'><p>Your rewiew:</p>
+            <Commentary commentData={userCommentary} readonly={false}/><hr /></div>}
+            {commentData.length > 0 ? commentData.map((e) => <Commentary commentData={e} readonly={true} key={e.id} />) : ''}
         </div>
 
     );

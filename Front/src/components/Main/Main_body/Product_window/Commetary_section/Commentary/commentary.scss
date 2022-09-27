@@ -10,42 +10,151 @@
     flex-direction: column;
     box-shadow: 0 0 7px 2px;
 
-    .comment_header{
+    .comment_header {
         display: flex;
         justify-content: space-between;
+
         .login_name {
             text-align: left;
             font-weight: 700;
         }
+
+        .change_comment {
+            img {
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+            }
+        }
     }
-    
+
     .hr {
         width: 700px;
         height: 1px;
-        background-color: black;
+        background-color: rgb(179, 179, 179);
         margin: 20px 0;
     }
 
-    .comment_main{
+    .comment_main {
         display: flex;
         justify-content: space-between;
+
         .comment_body {
             min-width: 500px;
             min-height: 100px;
             font-size: 20px;
             text-align: left;
+            textarea {
+                min-width: 500px;
+                min-height: 100px;
+                font-size: 20px;
+                resize: none;
+            }
         }
-        .comment_info{
-            .rating{
+
+        .comment_info {
+            .rating {
                 height: 35px;
                 display: flex;
-                p{
+
+                p {
                     margin: 0;
                     line-height: 30px;
                     font-size: 20px;
                     font-weight: 700;
                 }
             }
+
+            .likes {
+                height: 70%;
+                display: flex;
+                justify-content: space-around;
+                align-items: flex-end;
+                font-size: 22px;
+
+                p {
+                    margin: 0;
+                }
+
+                .like_button {
+                    position: relative;
+
+                    img {
+                        position: relative;
+                        z-index: 20;
+                        width: 30px;
+                        height: 30px;
+                        cursor: pointer;
+                    }
+
+                    .like_animation {
+                        display: none;
+                        position: absolute;
+                        border-radius: 50%;
+                        z-index: 10;
+                        width: 40px;
+                        height: 40px;
+                        left: -5px;
+                        top: -5px;
+                        background-color: rgba(5, 202, 5, 0.582);
+                        animation: likeButton 1s linear 0s 1;
+                    }
+                }
+
+                .dislike_button {
+                    position: relative;
+
+                    img {
+                        position: relative;
+                        z-index: 20;
+                        width: 25px;
+                        height: 25px;
+                        cursor: pointer;
+                    }
+
+                    .dislike_animation {
+                        display: none;
+                        position: absolute;
+                        border-radius: 50%;
+                        z-index: 10;
+                        width: 40px;
+                        height: 40px;
+                        left: -8px;
+                        top: -8px;
+                        background-color: rgba(202, 35, 5, 0.658);
+                        animation: likeButton 1s linear 0s 1;
+                    }
+                }
+            }
         }
-    }  
+    }
+
+    .edit_button {
+        display: flex;
+        justify-content: center;
+        p {
+            width: 100px;
+            font-size: 20px;
+            height: 30px;
+            border-radius: 10px;
+            display: flex;
+            color: white;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: rgb(15, 11, 87);
+            background: linear-gradient(180deg, rgb(18, 11, 148) 0%, rgb(45, 45, 158) 18%, rgb(1, 147, 177) 100%);
+        }
+
+    }
+}
+
+@keyframes likeButton {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
 }
