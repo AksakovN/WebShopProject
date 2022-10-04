@@ -11,7 +11,7 @@ class Commentary extends Model
     use HasFactory;
 
     protected $table = 'commentary';
-    protected $fillable = ['user_login', 'body', 'rating', 'likes', 'dislikes', 'product_id', 'user_id'];
+    protected $fillable = ['user_login', 'body', 'rating', 'likes', 'dislikes', 'product_id', 'user_id', 'likedUsers', 'dislikedUsers'];
 
     public function product()
     {

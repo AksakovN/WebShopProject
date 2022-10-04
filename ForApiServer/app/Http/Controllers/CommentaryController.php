@@ -15,7 +15,13 @@ class CommentaryController extends Controller
      */
     public function getCommentaries(Request $req)
     {
-        return Commentary::where('product_id',$req->id)->get()->sortBy([fn ($a, $b) => $b['updated_at'] <=> $a['updated_at']]);
+        $comment = Commentary::where('product_id', $req->id)->where('id', '!=', $req->Uid)->paginate($req->limit);
+        $sortedComment = $comment->getCollection()->sortBy([fn ($a, $b) => $b['created_at'] <=> $a['created_at']]);
+        $comment->setCollection($sortedComment);
+        return response()->json([ 
+           'comment' => $comment,
+           'userComment' => Commentary::find($req->Uid),
+        ]);
     }
 
     public function setCommentary(Request $req)
@@ -41,7 +47,7 @@ class CommentaryController extends Controller
 
     public function changeCommentary(Request $req)
     {
-        $comment = Commentary::find($req->id);   
+        $comment = Commentary::find($req->id);
         $product = Product::find($comment->product_id);
         $rating = $product->rating;
         $ratingEntries = $product->ratingEntries;
@@ -58,6 +64,18 @@ class CommentaryController extends Controller
         ]);
     }
 
-
-    
+    public function changeLikes(Request $req)
+    {
+        if ($req->index == 'like') {
+            Commentary::where('id', $req->id)->update([
+                'likes' => $req->likeBody,
+                'likedUsers' => $req->likeUsers,
+            ]);
+        } else {
+            Commentary::where('id', $req->id)->update([
+                'dislikes' => $req->dislikeBody,
+                'dislikedUsers' => $req->dislikeUsers,
+            ]);
+        }
+    }
 }

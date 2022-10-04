@@ -6,7 +6,6 @@ import './product_window.scss';
 import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 import Commentary_section from './Commetary_section/commentary_section';
 import { Rating } from 'react-simple-star-rating';
-import Cookies from 'js-cookie';
 
 function Product_window() {
     const { catalog } = useContext(ForModalContext);
@@ -14,45 +13,10 @@ function Product_window() {
     const [isInFav, setisInFav] = useState(false);
     const catalog_space = useRef(null);
     const image_space = useRef(null);
-    const commentAnim = useRef(null);
     const location = useLocation();
     const [prodInfo, setprodInfo] = useState([]);
     const [rating, setRating] = useState(0);
-    const [commentaryShown, setcommentaryShown] = useState(false);
-    const [commentaryData, setcommentaryData] = useState([]);
-    const [addCommentarySection, setaddCommentarySection] = useState(true);
-    const [userCommentary, setuserCommentary] = useState([]);
-
-    function getProduct() {
-        const item_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);   
-        axios.post('http://127.0.0.1:8000/api/product', { id: item_id })
-            .then((resp) => {
-                setprodInfo(resp.data);
-                localStorage.setItem('productInfo', JSON.stringify(resp.data));
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
-
-    function getCommentaries() {
-        let Uid = '';
-        if (loginInfo) {
-            const userInfo = Cookies.get('userInfo');
-            Uid = userInfo.substring((userInfo.indexOf('/') + 1));
-        }
-        axios.post('http://127.0.0.1:8000/api/getCommentaries', { id: prodInfo.id, Uid:Uid })
-            .then((resp) => {
-                setcommentaryData(resp.data.comment);
-                if (resp.data.userComment === null) {
-                    setaddCommentarySection(true);
-                    return;
-                }
-                setuserCommentary(resp.data.userComment); //null
-                setaddCommentarySection(false); 
-            })
-    }
-
+    
     function checkIfFav() {
         if (localStorage.getItem('favProducts') !== null) {
             const LocalArray = JSON.parse(localStorage.getItem('favProducts'));
@@ -62,6 +26,18 @@ function Product_window() {
                 }
             });
         }
+    }
+
+    function getProduct() {
+        const item_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+        axios.post('http://127.0.0.1:8000/api/product', { id: item_id })
+            .then((resp) => {
+                setprodInfo(resp.data);
+                localStorage.setItem('productInfo', JSON.stringify(resp.data));
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     function handlerImageHoverOn() {
@@ -127,26 +103,8 @@ function Product_window() {
         settotalPrice(totalPrice + 1);
     }
 
-    function handlerForShowCommentary() {     
-        if (commentaryShown == false) {
-            commentAnim.current.style.display = 'block';
-            getCommentaries();
-            setTimeout(() => {
-                commentAnim.current.style.display = 'none';
-                setcommentaryShown(!commentaryShown);
-                setTimeout(() => {
-                    window.scrollTo({top:1000, behavior: "smooth"})
-                }, 100);
-            }, 1000);
-        } else {
-            window.scrollTo({top:0, behavior: "smooth"});
-            commentAnim.current.style.display = 'none';
-            setcommentaryShown(!commentaryShown);
-        }
-    }
-
     useEffect(() => {
-        window.scrollTo({top:0, behavior: "smooth"});
+        window.scrollTo({ top: 0, behavior: "smooth" });
         if (prodInfo.length < 1) {
             if (localStorage.getItem('productInfo') == null) {
                 getProduct();
@@ -160,13 +118,13 @@ function Product_window() {
             catalog_space.current.style.display = 'none';
         }
         if (loginInfo) {
-            getCommentaries();
             setTimeout(() => {
-                checkIfFav(); 
+                checkIfFav();
             }, 1000);
         } else {
             setisInFav(false);
         }
+        
         setRating(prodInfo.rating);
     }, [catalog, prodInfo, loginInfo])
 
@@ -194,18 +152,9 @@ function Product_window() {
                             </div>
                         </div>
                     </div>
-                    <div className="commentary_button">
-                        <div className="open_commentary_button" onClick={handlerForShowCommentary}>
-                            {commentaryShown ? 'Hide rewiews' : `Show rewiews (${prodInfo.ratingEntries})`}
-                        </div>
+                    <div className="commentary_part">
+                        <Commentary_section productId={prodInfo} />
                     </div>
-                    <div className="commentary_anim" ref={commentAnim}>
-                        <hr/><hr/><hr/><hr/>
-                    </div>
-                    {commentaryShown ? <div className="commentary_part">
-                        <Commentary_section commentData={commentaryData} productId={prodInfo.id} 
-                        addCommentarySection={addCommentarySection} userCommentary={userCommentary}/>
-                    </div> : ''}
                 </div>
                 <div className="right_section">
                     <div className="info_part">

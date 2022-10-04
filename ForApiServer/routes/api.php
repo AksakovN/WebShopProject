@@ -42,6 +42,8 @@ Route::post('setCommentary', 'App\Http\Controllers\CommentaryController@setComme
 
 Route::post('changeCommentary', 'App\Http\Controllers\CommentaryController@changeCommentary');
 
+Route::post('changeLikes', 'App\Http\Controllers\CommentaryController@changeLikes');
+
 Route::post('getCommentaries', 'App\Http\Controllers\CommentaryController@getCommentaries');
 
 Route::post('addFav', 'App\Http\Controllers\Api_usersController@addToFav')->middleware('auth:sanctum');

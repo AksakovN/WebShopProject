@@ -6,6 +6,8 @@ export default function ForInnerDataContextProvider({ children }) {
     const [prodId, setprodId] = useState(null);
     const [loginInfo, setloginInfo] = useState(false);
     const [favInfo, setfavInfo] = useState(0);
+    const [commentData, setcommentData] = useState([]);
+    const [commentPagination, setcommentPagination] = useState([]);
     
 
     return (
@@ -15,6 +17,8 @@ export default function ForInnerDataContextProvider({ children }) {
                 prodId, setprodId,
                 loginInfo, setloginInfo,
                 favInfo, setfavInfo,
+                commentData, setcommentData,
+                commentPagination, setcommentPagination,
             }}
         >
             {children}
