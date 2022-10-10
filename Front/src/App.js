@@ -5,6 +5,7 @@ import Favourite_window from "./components/Main/Main_body/Favourite_window/favou
 import Main_window from "./components/Main/Main_body/Main_window/main_window";
 import Product_window from "./components/Main/Main_body/Product_window/product_window";
 import Search_window from "./components/Main/Main_body/Search_window/search_window";
+import Breadcrumbs from "./components/Utils/Breadcrumbs/breadcrumbs";
 
 function App() {
   return (
@@ -12,9 +13,11 @@ function App() {
       <Header />
       <div className="wrapper">
         <div className='header_space'></div>
+        <Breadcrumbs />
         <Routes>
           <Route path='/' element={<Main_window />} />
           <Route path='/:category' element={<Main_window />} />
+          <Route path='/:category/:subcategory' element={<Main_window />} />
           <Route path='/product/:id' element={<Product_window />} />
           <Route path='/search' element={<Search_window />} />
           <Route path='/favourite' element={<Favourite_window />} />

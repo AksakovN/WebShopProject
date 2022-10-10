@@ -98,8 +98,6 @@ function Pagination_element({ page_info, marker }) {
 
         setpag_page(pages.slice(1, (pages.length - 1)));
         setpages(page_info.links);
-        console.log(pag_page);
-        console.log(page_info.current_page);
     }, [productsPage, commentData])
 
     return (

@@ -1,4 +1,7 @@
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ForRequestsContext } from '../../../../../contexts/forRequestsContext';
 import './catalog_row.scss';
 import Subcatalog from './Subcatalog/subcatalog';
@@ -6,8 +9,23 @@ import Subcatalog from './Subcatalog/subcatalog';
 function Catalog_row({ marker }) {
     const row = useRef(null);
     const subcatalog = useRef(null);
-    const { getSubcategory } = useContext(ForRequestsContext);
+    const { getSubcategory, setproducts, setproductsPage } = useContext(ForRequestsContext);
     const [subCat, setsubCat] = useState([]);
+    const navigate = useNavigate();
+
+    function handlerRedirectOnCat(e) {
+        e.stopPropagation();
+        axios.post('http://127.0.0.1:8000/api/productsByCategory', {id: marker.id, idSub: null, limit:12})
+        .then((resp) => {
+            setproducts(resp.data.prod.data);
+            setproductsPage(resp.data.prod);
+            Cookies.set('category', resp.data.cat, { expires: (1 / 24) });
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        navigate(`/${marker.name.replaceAll(' ', '_')}`);
+    }
 
     function handlerForSubcatalog() {
         row.current.classList.add('catalog_row_hover');
@@ -33,13 +51,14 @@ function Catalog_row({ marker }) {
 
     return (
         <div className='catalog_row' ref={row}
+            onClick={handlerRedirectOnCat}
             onMouseEnter={handlerForSubcatalog}
             onMouseLeave={handlerForCloseSubcatalog}>
             {marker.name}
             <div className="subcatalog_space" ref={subcatalog}>
                 <div className="subcatalog_space_main">
                     <div className="subcatalog_space_box"></div>
-                    {!!subCat && subCat.map((e) => <Subcatalog key={e.id} marker={e} />)}
+                    {!!subCat && subCat.map((e) => <Subcatalog key={e.id} marker={e} catInfo={marker} />)}
                 </div>
             </div>
         </div>

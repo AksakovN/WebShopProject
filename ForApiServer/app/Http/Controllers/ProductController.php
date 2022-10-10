@@ -24,8 +24,18 @@ class ProductController extends Controller
 
     public function getByCategory(Request $req) 
     {
-        return  Product::where('subcategory_id', $req->id)->paginate($req->limit);
-        
+        if ($req->idSub == null) {
+            $place = 'reserved';
+            $id = $req->id;
+        } else {
+            $place = 'subcategory_id';
+            $id = $req->idSub;
+        }
+        return response()->json([
+            'prod' => Product::where($place, $id)->paginate($req->limit),
+            'cat' => $req->id,
+            'subCat' => $req->idSub
+        ]);
     }
 
     public function forMain() 

@@ -6,6 +6,7 @@ export default function ForRequestsContextProvider({ children }) {
     const [productsPage, setproductsPage] = useState([]);
     const [getCatalog, setgetCatalog] = useState([]);
     const [getSubcategory, setgetSubcategory] = useState([]);
+    const [prodInfo, setprodInfo] = useState([]);
     return (
         <ForRequestsContext.Provider
             value={{
@@ -13,6 +14,7 @@ export default function ForRequestsContextProvider({ children }) {
                 productsPage, setproductsPage,
                 getCatalog, setgetCatalog,
                 getSubcategory, setgetSubcategory,
+                prodInfo, setprodInfo,
             }}
         >
             {children}
