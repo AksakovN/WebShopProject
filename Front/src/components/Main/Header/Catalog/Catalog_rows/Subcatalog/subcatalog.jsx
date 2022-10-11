@@ -10,6 +10,7 @@ function Subcatalog({ marker, catInfo }) {
     const { setproducts, setproductsPage } = useContext(ForRequestsContext);
 
     function handlerRedirectOnCat(e) {
+        e.preventDefault();
         e.stopPropagation();
         axios.post('http://127.0.0.1:8000/api/productsByCategory', {id: catInfo.id, idSub: marker.id, limit:12})
         .then((resp) => {
@@ -26,7 +27,7 @@ function Subcatalog({ marker, catInfo }) {
     
     return (
         <div className='subcatalog'>
-            <p onClick={handlerRedirectOnCat}>{marker.name}</p>
+            <a href={`/${catInfo.name.replaceAll(' ', '_')}/${marker.name.replaceAll(' ', '_')}`} onClick={handlerRedirectOnCat}>{marker.name}</a>
         </div>
     );
 }

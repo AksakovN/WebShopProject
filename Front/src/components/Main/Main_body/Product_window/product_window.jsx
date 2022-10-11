@@ -6,6 +6,7 @@ import './product_window.scss';
 import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 import Commentary_section from './Commetary_section/commentary_section';
 import { Rating } from 'react-simple-star-rating';
+import { Helmet } from 'react-helmet-async';
 
 function Product_window() {
     const { catalog } = useContext(ForModalContext);
@@ -109,7 +110,12 @@ function Product_window() {
             if (localStorage.getItem('productInfo') == null) {
                 getProduct();
             } else {
-                setprodInfo(JSON.parse(localStorage.getItem('productInfo')));
+                const locId = location.pathname.substring((9));
+                if (locId !== JSON.parse(localStorage.getItem('productInfo')).id) {
+                    getProduct();
+                } else {
+                    setprodInfo(JSON.parse(localStorage.getItem('productInfo')));
+                }                
             }
         }
         if (catalog == true) {
@@ -130,6 +136,9 @@ function Product_window() {
 
     return (
         <div className="main_space">
+            <Helmet>
+                <title>{prodInfo.name}</title>
+            </Helmet>
             <div className='catalog_space' ref={catalog_space}></div>
             <div className='product_body'>
                 {/* добавить свайпер с рекламой? */}

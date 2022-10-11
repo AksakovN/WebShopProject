@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ForModalContext } from '../../../../../contexts/forModalContext';
-import { ForRequestsContext } from '../../../../../contexts/forRequestsContext';
+// import { ForRequestsContext } from '../../../../../contexts/forRequestsContext';
 import './pagination_button.scss';
 
 function Pagination_button({ e, page_info }) {
-    const { setproducts, setproductsPage } = useContext(ForRequestsContext);
+    // const { setproducts, setproductsPage } = useContext(ForRequestsContext);
     const { setpagination_detail } = useContext(ForModalContext);
+    const navigate = useNavigate();
     const [checker, setchecker] = useState(0);
     const [modal_open, setmodal_open] = useState(false);
     const [modal_error, setmodal_error] = useState(false);
@@ -34,24 +36,23 @@ function Pagination_button({ e, page_info }) {
         } else if (event.target.classList[0] == "modal_for_enter_page" || event.target.classList[0] == 'pagination_input') {
             return;
         }
-        const url = `http://127.0.0.1:8000/api/products?page=${page}&limit=12`;
+        navigate(`/page/${page}`);
         restoreColor();
         button.current.style.filter = 'contrast(50%)';
         setchecker(checker + 1);
-        getProductsPagination(url);
         setpagination_detail(false);
     }
 
-    function getProductsPagination(url) {
-        axios.get(url)
-            .then((resp) => {
-                setproducts(resp.data.data);
-                setproductsPage(resp.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
+    // function getProductsPagination(url) {
+    //     axios.get(url)
+    //         .then((resp) => {
+    //             setproducts(resp.data.data);
+    //             setproductsPage(resp.data);
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    // }
 
     function restoreColor() {
         const buttons = document.querySelectorAll('.pagination_item');

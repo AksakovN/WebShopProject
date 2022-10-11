@@ -7,6 +7,7 @@ import Pagination_element from '../../../Utils/Pagination/pagination';
 import Product_card from '../Product_card/product_card';
 import './main_window.scss';
 import Main_window_carousel from './Main_window_carousel/main_window_carousel';
+import { Helmet } from 'react-helmet-async';
 
 function Main_window() {
     const catalog_space = useRef(null);
@@ -45,6 +46,9 @@ function Main_window() {
 
     return (
         <div className="main_space">
+            <Helmet>
+                <title>Online Shop</title>
+            </Helmet>
             <div className='catalog_space' ref={catalog_space}></div>
             <div className='main_body'>
                 {!!isOnCat ? <div className="carousel">
@@ -52,7 +56,7 @@ function Main_window() {
                 </div> : ''}
                 {!!isOnCat ? <p> For Sale!</p> : ''}
                 {!!products && products.map((e) => <Product_card key={e.id} marker={e} />)}
-                {productsPage.length < 1 ? '' : <Pagination_element page_info={productsPage} marker={'main'}/>}
+                {productsPage.length < 1 ? '' : <Pagination_element page_info={productsPage} marker={'main'} />}
             </div>
         </div>
     );

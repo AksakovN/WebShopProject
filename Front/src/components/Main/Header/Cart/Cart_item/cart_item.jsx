@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ForInnerDataContext } from '../../../../../contexts/forInnerDataContext';
 import './cart_item.scss';
 
@@ -6,9 +7,10 @@ function Cart_item({ mark, index }) {
     const [count, setcount] = useState(mark.count);
     const [price, setprice] = useState(mark.price);
     const [image, setimage] = useState('');
+    const navigate = useNavigate();
     const count_display = useRef(null);
     const button_minus = useRef(null);
-    const { totalPrice, settotalPrice } = useContext(ForInnerDataContext);
+    const { totalPrice, settotalPrice, setprodId } = useContext(ForInnerDataContext);
 
     function getLocalStorage() {
         return JSON.parse(localStorage.getItem('cartInfo'));
@@ -17,6 +19,13 @@ function Cart_item({ mark, index }) {
         if (checker[index].count > 1 && button_minus.current.classList.contains('low_count')) {
             button_minus.current.classList.remove('low_count');
         }
+    }
+
+    function handlerRedirectOnProd(e) {
+        e.preventDefault();
+        setprodId(mark.id);
+        navigate(`/product/${mark.id}`);
+
     }
 
     function localProdChange(new_count) {
@@ -47,7 +56,7 @@ function Cart_item({ mark, index }) {
         checkerHandler(checker);
         settotalPrice(totalPrice + 1);
     }
-    function handlerButtonDelete() {
+    function handlerButtonDelete() {      
         settotalPrice(totalPrice + 1);
         const localProduct = getLocalStorage();
         localProduct.splice(index, 1);
@@ -68,7 +77,7 @@ function Cart_item({ mark, index }) {
 
     return (
         <div className='cart_item_main'>
-            <img src={image} alt="" />
+            <a href={`/product/${mark.id}`} onClick={handlerRedirectOnProd}><img src={image} alt="" /></a>
             <div className="cart_item_control">
                 <div className="button_minus low_count" ref={button_minus} onClick={handlerButtonMinus}></div>
                 <div className="count_display" ref={count_display}>{count}</div>
@@ -76,7 +85,7 @@ function Cart_item({ mark, index }) {
                 <div className="button_delete" onClick={handlerButtonDelete}><img src={require('../../../../Images/recycle-bin.png')} alt="" /></div>
             </div>
             <div className="cart_item_text">
-                <div className="cart_item_name">{mark.name}</div>
+                <a href={`/product/${mark.id}`} onClick={handlerRedirectOnProd}><div className="cart_item_name">{mark.name}</div></a>
                 <div className="cart_item_price">Price: <br /> {price} ₴</div>
             </div>
         </div>

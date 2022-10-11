@@ -14,16 +14,17 @@ function Catalog_row({ marker }) {
     const navigate = useNavigate();
 
     function handlerRedirectOnCat(e) {
+        e.preventDefault();
         e.stopPropagation();
-        axios.post('http://127.0.0.1:8000/api/productsByCategory', {id: marker.id, idSub: null, limit:12})
-        .then((resp) => {
-            setproducts(resp.data.prod.data);
-            setproductsPage(resp.data.prod);
-            Cookies.set('category', resp.data.cat, { expires: (1 / 24) });
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        axios.post('http://127.0.0.1:8000/api/productsByCategory', { id: marker.id, idSub: null, limit: 12 })
+            .then((resp) => {
+                setproducts(resp.data.prod.data);
+                setproductsPage(resp.data.prod);
+                Cookies.set('category', resp.data.cat, { expires: (1 / 24) });
+            })
+            .catch((error) => {
+                console.log(error);
+            })
         navigate(`/${marker.name.replaceAll(' ', '_')}`);
     }
 
@@ -50,11 +51,13 @@ function Catalog_row({ marker }) {
 
 
     return (
-        <div className='catalog_row' ref={row}
-            onClick={handlerRedirectOnCat}
-            onMouseEnter={handlerForSubcatalog}
-            onMouseLeave={handlerForCloseSubcatalog}>
-            {marker.name}
+        <div className='catalog_row_wrapper'>
+            <a href={`/${marker.name.replaceAll(' ', '_')}`} className='catalog_row' ref={row}
+                onClick={handlerRedirectOnCat}
+                onMouseEnter={handlerForSubcatalog}
+                onMouseLeave={handlerForCloseSubcatalog}>
+                {marker.name}
+            </a>
             <div className="subcatalog_space" ref={subcatalog}>
                 <div className="subcatalog_space_main">
                     <div className="subcatalog_space_box"></div>
@@ -62,6 +65,7 @@ function Catalog_row({ marker }) {
                 </div>
             </div>
         </div>
+
     );
 }
 

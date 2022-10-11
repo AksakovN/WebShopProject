@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ForInnerDataContext } from '../../../contexts/forInnerDataContext';
 import { ForModalContext } from '../../../contexts/forModalContext';
+import { useNavigate } from 'react-router-dom';
 import { ForRequestsContext } from '../../../contexts/forRequestsContext';
 import './pagination.scss';
 import Pagination_detailed from './Pagination_detailed/pagination_detailed';
@@ -14,6 +15,7 @@ function Pagination_element({ page_info, marker }) {
     const { loginInfo, commentData, setcommentData, setcommentPagination } = useContext(ForInnerDataContext);
     const { pagination_detail, setpagination_detail } = useContext(ForModalContext);
     const [prodInfo, setprodInfo] = useState([]);
+    const navigate = useNavigate();
     const prev = useRef(null);
     const next = useRef(null);
     let path = true;
@@ -53,17 +55,22 @@ function Pagination_element({ page_info, marker }) {
         if (e.target.outerText == 'Previous') {
             let url = '';
             if (marker == 'main') {
-                url = `http://127.0.0.1:8000/api/products?page=${page_info.current_page - 1}&limit=12`;
+                navigate(`/page/${page_info.current_page - 1}`);
+                setpagination_detail(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
             } else {
                 url = `http://127.0.0.1:8000/api/getCommentaries?page=${page_info.current_page - 1}&limit=5`
             }
             getProductsPagination(url);  
+            
         } else if (e.target.outerText == 'Next') {
             let url = '';
             if (marker == 'main') {
-                url = `http://127.0.0.1:8000/api/products?page=${page_info.current_page + 1}&limit=12`;
+                navigate(`/page/${page_info.current_page + 1}`);
+                setpagination_detail(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
             } else {
                 url = `http://127.0.0.1:8000/api/getCommentaries?page=${page_info.current_page + 1}&limit=5`
             }

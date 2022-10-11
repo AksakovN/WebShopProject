@@ -1,6 +1,6 @@
 .cart_item_main {
     width: 280px;
-    height: 100px;
+    height: 120px;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -91,13 +91,19 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        .cart_item_name{
-            width: 160px;
-            height: 38px;
-            font-size: 16px;
-            text-align: left;
-            overflow: hidden;
-        }
+        a{
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            color: black;
+            .cart_item_name{
+                width: 160px;
+                height: 38px;
+                font-size: 16px;
+                text-align: left;
+                overflow: hidden;
+            }
+        }  
         .cart_item_price{
             width: 80px;
             height: 38px;

@@ -7,17 +7,20 @@ import reportWebVitals from './reportWebVitals';
 import ForModalContextProvider from './contexts/forModalContext';
 import ForInnerDataContextProvider from './contexts/forInnerDataContext';
 import ForRequestsContextProvider from './contexts/forRequestsContext';
+import { HelmetProvider } from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-    <ForModalContextProvider>
-      <ForInnerDataContextProvider>
-        <ForRequestsContextProvider>
-          <App />
-        </ForRequestsContextProvider>
-      </ForInnerDataContextProvider>
-    </ForModalContextProvider>
+    <HelmetProvider>
+      <ForModalContextProvider>
+        <ForInnerDataContextProvider>
+          <ForRequestsContextProvider>
+            <App />
+          </ForRequestsContextProvider>
+        </ForInnerDataContextProvider>
+      </ForModalContextProvider>
+    </HelmetProvider>
   </Router>
 
 );

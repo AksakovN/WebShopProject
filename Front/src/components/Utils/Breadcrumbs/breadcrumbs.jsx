@@ -1,5 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { returnCategory } from './bcfunctions';
+import { getCategory } from './bcfunctions';
+import { returnSubcategory } from './bcfunctions';
+import { getSubcategory } from './bcfunctions';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
@@ -63,65 +67,20 @@ function Breadcrumbs() {
             })
     }
 
-    function returnCategory(key) {
-        switch (key) {
-            case '1':
-                return 'Smartphones and Telephones';
-            case '2':
-                return 'For Personal Computers';
-            case '3':
-                return 'Kitchen appliances';
-            case '4':
-                return 'Home appliances';
-            case '5':
-                return 'TV Video';
-            case '6':
-                return 'Audio';
-            case '7':
-                return 'Cams and Camcorders';
-        }
+    function getProduct() {
+        const item_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+        axios.post('http://127.0.0.1:8000/api/product', { id: item_id })
+            .then((resp) => {
+                localStorage.setItem('productInfo', JSON.stringify(resp.data));
+                const setStart = ['Main'];
+                setStart.push(returnCategory(resp.data.reserved));
+                setStart.puch(returnSubcategory(resp.data.subcategory_id));
+                setStart.push('Current product');
+                setcrumbArray(setStart);
+            })
     }
 
-    function returnSubcategory(key) {
-        switch (key) {
-            case 1:
-                return 'Smartphones';
-            case 2:
-                return 'Accesories for phones';
-            case 3:
-                return 'Graphic cards';
-            case 4:
-                return 'Processors';
-            case 5:
-                return 'Motherboards';
-            case 6:
-                return 'Fridges';
-            case 7:
-                return 'Blenders';
-            case 8:
-                return 'Dishwashers';
-            case 9:
-                return 'Wash machines';
-            case 10:
-                return 'Vacuum cleaners';
-            case 11:
-                return 'Irons';
-            case 12:
-                return 'Flat TVs';
-            case 13:
-                return 'TVs accesories';
-            case 14:
-                return 'Headphones';
-            case 15:
-                return 'Headsets';
-            case 16:
-                return 'Cameras';
-            case 17:
-                return 'Camcorders';
-            case 18:
-                return 'Quadcopters';
-        }
-    }
+
 
     function findPath() {
         const href = window.location.href;
@@ -129,9 +88,9 @@ function Breadcrumbs() {
     }
 
     useEffect(() => {
-        anim.current.style.display= 'flex';
+        anim.current.style.display = 'flex';
         setTimeout(() => {
-            anim.current.style.display= 'none';
+            anim.current.style.display = 'none';
         }, 1000);
         setTimeout(() => {
             setcrumbArray(['Main']);
@@ -147,7 +106,14 @@ function Breadcrumbs() {
                     setcrumbArray(setStart);
                 } else {
                     if (Cookies.get('category') !== undefined) {
-                        setStart.push(returnCategory(Cookies.get('category')));
+                        Cookies.set('category', returnCategory(findPath()), { expires: (1 / 24) });
+                        setStart.push(findPath().replaceAll('_', ' '));
+                        handlerRedirectOnCat(getCategory(findPath()), null);
+                        setcrumbArray(setStart);
+                    } else {
+                        setStart.push(findPath().replaceAll('_', ' '));
+                        handlerRedirectOnCat(getCategory(findPath()), null);
+                        console.log(findPath());
                         setcrumbArray(setStart);
                     }
                 }
@@ -155,15 +121,38 @@ function Breadcrumbs() {
                 if (localStorage.getItem('productInfo') !== null) {
                     setStart.push(returnCategory(JSON.parse(localStorage.getItem('productInfo')).reserved));
                     setStart.push(returnSubcategory(JSON.parse(localStorage.getItem('productInfo')).subcategory_id));
-                    setStart.push('Current product')
+                    setStart.push('Current product');
                     setcrumbArray(setStart);
+                } else {
+                    getProduct();
                 }
+            } else if (findPath().includes('page')) {
+                const currPage = findPath().substring(5);
+                if (currPage == 1) {
+                    navigate('/');
+                }
+                axios.get(`http://127.0.0.1:8000/api/products?page=${currPage}&limit=12`)
+                    .then((resp) => {
+                        setproducts(resp.data.data);
+                        setproductsPage(resp.data);
+                    })
             } else {
+                const urlPath = findPath();
+                const iUrlPath = urlPath.indexOf('/');
+                const catPath = urlPath.substring(0, iUrlPath - 1);
+                const subcatPath = urlPath.substring(iUrlPath + 1);
                 if (Cookies.get('category') !== undefined && Cookies.get('subcategory') !== undefined) {
-                    setStart.push(returnCategory(Cookies.get('category')));
-                    const getsubCat = Cookies.get('subcategory');
-                    setStart.push(returnSubcategory(parseInt(getsubCat)));
+                    Cookies.set('category', returnCategory(catPath), { expires: (1 / 24) });
+                    Cookies.set('subcategory', returnSubcategory(subcatPath), { expires: (1 / 24) });
+                    setStart.push(catPath.replaceAll('_', ' '));
+                    setStart.push(subcatPath.replaceAll('_', ' '));
                     console.log(setStart);
+                    handlerRedirectOnCat(getCategory(catPath), getSubcategory(subcatPath));
+                    setcrumbArray(setStart);
+                } else {
+                    setStart.push(catPath.replaceAll('_', ' '));
+                    setStart.push(subcatPath.replaceAll('_', ' '));
+                    handlerRedirectOnCat(getCategory(catPath), getSubcategory(subcatPath));
                     setcrumbArray(setStart);
                 }
             }

@@ -13,16 +13,7 @@
         top: 70px;
         background-color: #fff;
         transition: 0.3s;
-        &::after{
-            position: absolute;
-            content: '';
-            width: 20px;
-            height: 20px;
-            top: -5px;
-            left: 32px;
-            background-color: rgb(253, 253, 253);
-            transform: rotateZ(45deg);
-        }
+        
         .catalog_upper{
             width: 100%;
             height: 5%;

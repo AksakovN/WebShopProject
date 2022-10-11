@@ -17,6 +17,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Main_window />} />
           <Route path='/:category' element={<Main_window />} />
+          <Route path='/page/:pageNum' element={<Main_window />} />
           <Route path='/:category/:subcategory' element={<Main_window />} />
           <Route path='/product/:id' element={<Product_window />} />
           <Route path='/search' element={<Search_window />} />
