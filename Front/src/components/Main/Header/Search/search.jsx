@@ -19,8 +19,10 @@ function Search() {
             axios.post('http://127.0.0.1:8000/api/search', { text: search_text, limit: 12 })
                 .then((resp) => {                 
                         setproducts(resp.data.data);
-                        setproductsPage(resp.data);    
-                        navigate('/search');              
+                        setproductsPage(resp.data); 
+                        localStorage.setItem('searchResult', JSON.stringify(resp.data));
+                        localStorage.setItem('searchProducts', JSON.stringify(resp.data.data));
+                        navigate('/Search');              
                 })
                 .catch(() => {
                     setsearchResult(2);

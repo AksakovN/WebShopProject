@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ForModalContext } from '../../../../contexts/forModalContext';
 import './product_window.scss';
@@ -10,10 +11,11 @@ import { Helmet } from 'react-helmet-async';
 
 function Product_window() {
     const { catalog } = useContext(ForModalContext);
-    const { totalPrice, settotalPrice, loginInfo, favInfo, setfavInfo } = useContext(ForInnerDataContext);
+    const { totalPrice, settotalPrice, loginInfo, favInfo, setfavInfo, setforPNF } = useContext(ForInnerDataContext);
     const [isInFav, setisInFav] = useState(false);
     const catalog_space = useRef(null);
     const image_space = useRef(null);
+    const navigate = useNavigate();
     const location = useLocation();
     const [prodInfo, setprodInfo] = useState([]);
     const [rating, setRating] = useState(0);
@@ -33,6 +35,11 @@ function Product_window() {
         const item_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
         axios.post('http://127.0.0.1:8000/api/product', { id: item_id })
             .then((resp) => {
+                if (resp.data == '') {
+                    setforPNF(window.location.href);
+                    navigate('/Page_not_found');
+                    return;
+                }
                 setprodInfo(resp.data);
                 localStorage.setItem('productInfo', JSON.stringify(resp.data));
             })
@@ -141,7 +148,6 @@ function Product_window() {
             </Helmet>
             <div className='catalog_space' ref={catalog_space}></div>
             <div className='product_body'>
-                {/* добавить свайпер с рекламой? */}
                 <div className="left_section">
                     <div className="img_part">
                         <div className="img_space" ref={image_space}>

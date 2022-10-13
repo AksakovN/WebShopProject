@@ -22,12 +22,12 @@ function Subcatalog({ marker, catInfo }) {
         .catch((error) => {
             console.log(error);
         })
-        navigate(`/${catInfo.name.replaceAll(' ', '_')}/${marker.name.replaceAll(' ', '_')}`);
+        navigate(`/Category/${catInfo.name.replaceAll(' ', '_')}/Subcategory/${marker.name.replaceAll(' ', '_')}`);
     }
     
     return (
         <div className='subcatalog'>
-            <a href={`/${catInfo.name.replaceAll(' ', '_')}/${marker.name.replaceAll(' ', '_')}`} onClick={handlerRedirectOnCat}>{marker.name}</a>
+            <a href={`/Category/${catInfo.name.replaceAll(' ', '_')}/Subcategory/${marker.name.replaceAll(' ', '_')}`} onClick={handlerRedirectOnCat}>{marker.name}</a>
         </div>
     );
 }

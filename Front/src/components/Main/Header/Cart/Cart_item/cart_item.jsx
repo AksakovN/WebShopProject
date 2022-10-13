@@ -24,7 +24,7 @@ function Cart_item({ mark, index }) {
     function handlerRedirectOnProd(e) {
         e.preventDefault();
         setprodId(mark.id);
-        navigate(`/product/${mark.id}`);
+        navigate(`/Product/${mark.id}`);
 
     }
 
@@ -77,7 +77,7 @@ function Cart_item({ mark, index }) {
 
     return (
         <div className='cart_item_main'>
-            <a href={`/product/${mark.id}`} onClick={handlerRedirectOnProd}><img src={image} alt="" /></a>
+            <a href={`/Product/${mark.id}`} onClick={handlerRedirectOnProd}><img src={image} alt="" /></a>
             <div className="cart_item_control">
                 <div className="button_minus low_count" ref={button_minus} onClick={handlerButtonMinus}></div>
                 <div className="count_display" ref={count_display}>{count}</div>
@@ -85,7 +85,7 @@ function Cart_item({ mark, index }) {
                 <div className="button_delete" onClick={handlerButtonDelete}><img src={require('../../../../Images/recycle-bin.png')} alt="" /></div>
             </div>
             <div className="cart_item_text">
-                <a href={`/product/${mark.id}`} onClick={handlerRedirectOnProd}><div className="cart_item_name">{mark.name}</div></a>
+                <a href={`/Product/${mark.id}`} onClick={handlerRedirectOnProd}><div className="cart_item_name">{mark.name}</div></a>
                 <div className="cart_item_price">Price: <br /> {price} ₴</div>
             </div>
         </div>

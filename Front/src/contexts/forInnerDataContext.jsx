@@ -8,6 +8,7 @@ export default function ForInnerDataContextProvider({ children }) {
     const [favInfo, setfavInfo] = useState(0);
     const [commentData, setcommentData] = useState([]);
     const [commentPagination, setcommentPagination] = useState([]);
+    const [forPNF, setforPNF] = useState('');
     
 
     return (
@@ -19,6 +20,7 @@ export default function ForInnerDataContextProvider({ children }) {
                 favInfo, setfavInfo,
                 commentData, setcommentData,
                 commentPagination, setcommentPagination,
+                forPNF, setforPNF,
             }}
         >
             {children}

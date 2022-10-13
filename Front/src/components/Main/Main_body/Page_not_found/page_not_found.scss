@@ -1,0 +1,14 @@
+.page_not_found{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1{
+        font-size: 36px;
+        color: blue;
+    }
+    h3{
+        font-size: 26px;
+        color: blue;
+    }
+}

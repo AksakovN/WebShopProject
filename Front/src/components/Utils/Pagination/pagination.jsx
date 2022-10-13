@@ -52,10 +52,11 @@ function Pagination_element({ page_info, marker }) {
     }
 
     function handlerForPagesChange(e) {
+        e.preventDefault();
         if (e.target.outerText == 'Previous') {
             let url = '';
             if (marker == 'main') {
-                navigate(`/page/${page_info.current_page - 1}`);
+                navigate(`/Page/${page_info.current_page - 1}`);
                 setpagination_detail(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 return;
@@ -67,7 +68,7 @@ function Pagination_element({ page_info, marker }) {
         } else if (e.target.outerText == 'Next') {
             let url = '';
             if (marker == 'main') {
-                navigate(`/page/${page_info.current_page + 1}`);
+                navigate(`/Page/${page_info.current_page + 1}`);
                 setpagination_detail(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 return;
@@ -112,9 +113,9 @@ function Pagination_element({ page_info, marker }) {
             <div className="pagination_space">
                 {pagination_detail && <Pagination_detailed page_info={page_info} pag_page={pag_page} />}
                 <div className="pagination_control">
-                    <div className="pag_button" ref={prev} onClick={handlerForPagesChange}>Previous</div>
+                    <a href={`/Page/${page_info.current_page - 1}`} onClick={handlerForPagesChange}><div className="pag_button" ref={prev}>Previous</div></a>
                     {path && <div className="pag_button_detail" onClick={handlerForPagesChange}>...</div>}
-                    <div className="pag_button" ref={next} onClick={handlerForPagesChange}>Next</div>
+                    <a href={`/Page/${page_info.current_page + 1}`} onClick={handlerForPagesChange}><div className="pag_button" ref={next}>Next</div></a>
                 </div>
             </div>
         </div>

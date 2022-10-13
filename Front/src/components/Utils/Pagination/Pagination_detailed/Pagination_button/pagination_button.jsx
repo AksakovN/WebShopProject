@@ -1,12 +1,9 @@
-import axios from 'axios';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ForModalContext } from '../../../../../contexts/forModalContext';
-// import { ForRequestsContext } from '../../../../../contexts/forRequestsContext';
 import './pagination_button.scss';
 
 function Pagination_button({ e, page_info }) {
-    // const { setproducts, setproductsPage } = useContext(ForRequestsContext);
     const { setpagination_detail } = useContext(ForModalContext);
     const navigate = useNavigate();
     const [checker, setchecker] = useState(0);
@@ -17,6 +14,7 @@ function Pagination_button({ e, page_info }) {
 
     function handlerForNewPage(event) {
         event.stopPropagation();
+        event.preventDefault();
         let page = e.label;
         if (event.target.outerText == '...') {
             if (modal_open == false) {
@@ -36,23 +34,12 @@ function Pagination_button({ e, page_info }) {
         } else if (event.target.classList[0] == "modal_for_enter_page" || event.target.classList[0] == 'pagination_input') {
             return;
         }
-        navigate(`/page/${page}`);
+        navigate(`/Page/${page}`);
         restoreColor();
         button.current.style.filter = 'contrast(50%)';
         setchecker(checker + 1);
         setpagination_detail(false);
     }
-
-    // function getProductsPagination(url) {
-    //     axios.get(url)
-    //         .then((resp) => {
-    //             setproducts(resp.data.data);
-    //             setproductsPage(resp.data);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    // }
 
     function restoreColor() {
         const buttons = document.querySelectorAll('.pagination_item');
@@ -69,7 +56,7 @@ function Pagination_button({ e, page_info }) {
 
 
     return (
-        <div className='pagination_item' ref={button} onClick={handlerForNewPage}>
+        <a href={`/Page/${e.label}`} className='pagination_item' ref={button} onClick={handlerForNewPage}>
             {modal_open && <div className="modal_for_enter_page" >
                 Jump to page: (1-{page_info.last_page})
                 <input type="text" className='pagination_input' ref={modal} />
@@ -77,7 +64,7 @@ function Pagination_button({ e, page_info }) {
                 {modal_error && <div className="pag_modal_button_error">Wrong page number!</div>}
             </div>}
             {e.label}
-        </div>
+        </a>
     );
 }
 

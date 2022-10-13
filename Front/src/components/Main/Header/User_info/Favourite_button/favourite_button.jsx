@@ -22,10 +22,11 @@ function Favourite_button() {
         axios.post('http://127.0.0.1:8000/api/addFav', { id: LocalArray }, config)
     }
 
-    function handlerForFavouriteWindow() {
+    function handlerForFavouriteWindow(e) {
+        e.preventDefault();
         if (loginInfo) {
             setFavProducts();
-            navigate('/favourite');
+            navigate('/Favourite');
         } else {
             setuserPanel(true);
         }
@@ -50,7 +51,7 @@ function Favourite_button() {
 
     return (
         <div className='favourite_button'>
-            <img src={require("../../../../Images/favourite.png")} alt="favouriteButton" onClick={handlerForFavouriteWindow} />
+            <a href={'/Favourite'}><img src={require("../../../../Images/favourite.png")} alt="favouriteButton" onClick={handlerForFavouriteWindow} /></a>
             <div className="fav_size" ref={fav_size}>{fav_number}</div>
         </div>
     );

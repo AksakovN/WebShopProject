@@ -29,6 +29,8 @@ function Main_window() {
 
     useEffect(() => {
         localStorage.removeItem('productInfo');
+        localStorage.removeItem('searchResult');
+        localStorage.removeItem('searchProducts');
         if (products.length < 1) {
             prodRequest();
         }

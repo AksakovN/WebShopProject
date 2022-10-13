@@ -24,7 +24,7 @@ function Product_card({ marker }) {
     function handlerRedirectOnProd(e) {
         e.preventDefault();
         setprodId(marker.id);
-        navigate(`/product/${marker.id}`);
+        navigate(`/Product/${marker.id}`);
 
     }
 

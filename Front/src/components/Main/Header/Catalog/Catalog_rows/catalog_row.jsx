@@ -25,7 +25,7 @@ function Catalog_row({ marker }) {
             .catch((error) => {
                 console.log(error);
             })
-        navigate(`/${marker.name.replaceAll(' ', '_')}`);
+        navigate(`/Category/${marker.name.replaceAll(' ', '_')}`);
     }
 
     function handlerForSubcatalog() {
@@ -51,11 +51,11 @@ function Catalog_row({ marker }) {
 
 
     return (
-        <div className='catalog_row_wrapper'>
-            <a href={`/${marker.name.replaceAll(' ', '_')}`} className='catalog_row' ref={row}
-                onClick={handlerRedirectOnCat}
-                onMouseEnter={handlerForSubcatalog}
-                onMouseLeave={handlerForCloseSubcatalog}>
+        <div className='catalog_row_wrapper'
+            onClick={handlerRedirectOnCat}
+            onMouseEnter={handlerForSubcatalog}
+            onMouseLeave={handlerForCloseSubcatalog}>
+            <a href={`/Category/${marker.name.replaceAll(' ', '_')}`} className='catalog_row' ref={row}>
                 {marker.name}
             </a>
             <div className="subcatalog_space" ref={subcatalog}>
