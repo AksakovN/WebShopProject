@@ -95,8 +95,7 @@ function Breadcrumbs() {
 
 
     function findPath() {
-        const href = window.location.href;
-        return href.substring(22);
+        return location.pathname.substring(1);
     }
 
     useEffect(() => {
@@ -147,13 +146,13 @@ function Breadcrumbs() {
                 if ((findPath().split("/").length - 1) == 1) {
                     const ind = findPath().indexOf('/');
                     const catPath = findPath().substring(ind + 1);
+                    console.log(catPath);
                     if (getCategory(catPath) == null) {
                         setforPNF(window.location.href);
                         navigate('/Page_not_found');
                         return;
                     }
                     const catNewPath = catPath.replaceAll('_', ' ');
-                    console.log(catNewPath);
                     if (Cookies.get('category') !== undefined) {
                         Cookies.set('category', returnCategory(catPath), { expires: (1 / 24) });
                         setStart.push(catNewPath);
