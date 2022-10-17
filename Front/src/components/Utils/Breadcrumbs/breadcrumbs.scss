@@ -1,20 +1,11 @@
 .breadcrumbs{
     margin: auto;
     width: 1400px;
+    height: max-content;
     padding: 0 40px 0 50px;
     background-color: rgb(240, 239, 239);
     display: flex;
     justify-content: flex-start;
-    .crumb{
-        cursor: pointer;
-        font-size: 20px;
-        font-weight: 700;
-        color: rgb(45, 45, 158);
-        &:last-of-type{
-            color:black;
-            cursor: default;
-        }
-    }
     .page_load{
         display: flex;
         margin: auto;

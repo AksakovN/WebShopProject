@@ -1,0 +1,12 @@
+.crumb{
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(45, 45, 158);
+    text-decoration: none;
+    &:last-of-type{
+        color:black;
+        cursor: default;
+        pointer-events: none;
+    }
+}

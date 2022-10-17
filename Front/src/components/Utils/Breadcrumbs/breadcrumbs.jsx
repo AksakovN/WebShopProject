@@ -1,3 +1,4 @@
+import './breadcrumbs.scss';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { returnCategory } from './bcfunctions';
@@ -8,8 +9,9 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { ForRequestsContext } from '../../../contexts/forRequestsContext';
-import './breadcrumbs.scss';
 import { ForInnerDataContext } from '../../../contexts/forInnerDataContext';
+import BreadcrumbsLink from './BreadcrumbsLink/breadcrumbsLink';
+
 
 function Breadcrumbs() {
     const navigate = useNavigate();
@@ -17,7 +19,6 @@ function Breadcrumbs() {
     const [crumbArray, setcrumbArray] = useState(['Main']);
     const [PNFCheck, setPNFCheck] = useState(false);
     const anim = useRef(null);
-    const crumb = useRef(null);
     const { setproducts, setproductsPage, prodInfo } = useContext(ForRequestsContext);
     const { setforPNF } = useContext(ForInnerDataContext);
 
@@ -107,10 +108,8 @@ function Breadcrumbs() {
             setcrumbArray(['Main']);
             const setStart = ['Main'];
             setPNFCheck(false);
-            if (findPath().indexOf('/') == -1) {     
+            if (findPath().indexOf('/') == -1) {
                 if (findPath() == '') {
-                    crumb.current.style.color = 'black';
-                    crumb.current.style.cursor = 'default';
                     return;
                 } else if (findPath().includes('Search')) {
                     setStart.push('Search result')
@@ -120,8 +119,6 @@ function Breadcrumbs() {
                     setcrumbArray(setStart);
                 } else if (findPath().length > 0) {
                     setPNFCheck(true);
-                    crumb.current.style.color = 'rgb(45, 45, 158)';
-                    crumb.current.style.cursor = 'pointer';
                 }
             } else if (findPath().includes('Product')) {
                 if (localStorage.getItem('productInfo') !== null) {
@@ -164,7 +161,7 @@ function Breadcrumbs() {
                         setcrumbArray(setStart);
                     }
                 } else {
-                    const urlCatPath = findPath().search('Category');       
+                    const urlCatPath = findPath().search('Category');
                     const urlSubcatPath = findPath().search('Subcategory');
                     const catPath = findPath().substring(urlCatPath + 9, urlSubcatPath - 1);
                     const subcatPath = findPath().substring(urlSubcatPath + 12);
@@ -187,7 +184,7 @@ function Breadcrumbs() {
                         setcrumbArray(setStart);
                     }
                 }
-            } 
+            }
         }, 500);
     }, [location, prodInfo])
 
@@ -195,7 +192,7 @@ function Breadcrumbs() {
 
     return (
         <div className="breadcrumbs">
-            {crumbArray.map((e) => <a className='crumb' onClick={handlerForCrumbRedirect} ref={crumb} key={e}>{' > '}{e}</a>)}
+            {crumbArray.map((e) => <BreadcrumbsLink onClick={handlerForCrumbRedirect} key={e} link={e} array={crumbArray} />)}
             <div className="page_load" ref={anim}>
                 <div className="page_load_anim">
                     <hr /><hr /><hr /><hr />

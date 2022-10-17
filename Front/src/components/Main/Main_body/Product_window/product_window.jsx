@@ -119,11 +119,14 @@ function Product_window() {
             } else {
                 const locId = location.pathname.substring((9));
                 if (locId !== JSON.parse(localStorage.getItem('productInfo')).id) {
+                    console.log(1);
                     getProduct();
                 } else {
                     setprodInfo(JSON.parse(localStorage.getItem('productInfo')));
                 }                
             }
+        } else if (prodInfo.id !== location.pathname.substring(location.pathname.lastIndexOf('/') + 1)) {
+            getProduct();
         }
         if (catalog == true) {
             catalog_space.current.style.display = 'block';
@@ -139,7 +142,7 @@ function Product_window() {
         }
         
         setRating(prodInfo.rating);
-    }, [catalog, prodInfo, loginInfo])
+    }, [catalog, loginInfo, location])
 
     return (
         <div className="main_space">
