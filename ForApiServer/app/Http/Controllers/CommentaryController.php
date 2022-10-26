@@ -20,7 +20,7 @@ class CommentaryController extends Controller
         $comment->setCollection($sortedComment);
         return response()->json([ 
            'comment' => $comment,
-           'userComment' => Commentary::find($req->Uid),
+           'userComment' => Commentary::where('product_id', $req->id)->where('user_id', $req->Uid)->get()
         ]);
     }
 

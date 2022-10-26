@@ -1,6 +1,3 @@
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ForModalContext } from '../../../../contexts/forModalContext';
 import './product_window.scss';
@@ -8,16 +5,15 @@ import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 import Commentary_section from './Commetary_section/commentary_section';
 import { Rating } from 'react-simple-star-rating';
 import { Helmet } from 'react-helmet-async';
+import { ForRequestsContext } from '../../../../contexts/forRequestsContext';
 
 function Product_window() {
-    const { catalog } = useContext(ForModalContext);
-    const { totalPrice, settotalPrice, loginInfo, favInfo, setfavInfo, setforPNF } = useContext(ForInnerDataContext);
+    const { catalog, setuserPanel } = useContext(ForModalContext);
+    const { totalPrice, settotalPrice, loginInfo, favInfo, setfavInfo } = useContext(ForInnerDataContext);
+    const { prodInfo } = useContext(ForRequestsContext);
     const [isInFav, setisInFav] = useState(false);
     const catalog_space = useRef(null);
     const image_space = useRef(null);
-    const navigate = useNavigate();
-    const location = useLocation();
-    const [prodInfo, setprodInfo] = useState([]);
     const [rating, setRating] = useState(0);
     
     function checkIfFav() {
@@ -26,26 +22,9 @@ function Product_window() {
             LocalArray.forEach(e => {
                 if (e.id == prodInfo.id) {
                     setisInFav(true);
-                }
+                } 
             });
         }
-    }
-
-    function getProduct() {
-        const item_id = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-        axios.post('http://127.0.0.1:8000/api/product', { id: item_id })
-            .then((resp) => {
-                if (resp.data == '') {
-                    setforPNF(window.location.href);
-                    navigate('/Page_not_found');
-                    return;
-                }
-                setprodInfo(resp.data);
-                localStorage.setItem('productInfo', JSON.stringify(resp.data));
-            })
-            .catch((error) => {
-                console.log(error);
-            })
     }
 
     function handlerImageHoverOn() {
@@ -97,6 +76,8 @@ function Product_window() {
     function handlerAddToFav() {
         if (loginInfo) {
             addToLocal('favProducts', '');
+        } else {
+            setuserPanel(true);
         }
     }
 
@@ -113,36 +94,19 @@ function Product_window() {
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
-        if (prodInfo.length < 1) {
-            if (localStorage.getItem('productInfo') == null) {
-                getProduct();
-            } else {
-                const locId = location.pathname.substring((9));
-                if (locId !== JSON.parse(localStorage.getItem('productInfo')).id) {
-                    console.log(1);
-                    getProduct();
-                } else {
-                    setprodInfo(JSON.parse(localStorage.getItem('productInfo')));
-                }                
-            }
-        } else if (prodInfo.id !== location.pathname.substring(location.pathname.lastIndexOf('/') + 1)) {
-            getProduct();
-        }
         if (catalog == true) {
             catalog_space.current.style.display = 'block';
         } else {
             catalog_space.current.style.display = 'none';
         }
+        setisInFav(false);
         if (loginInfo) {
             setTimeout(() => {
                 checkIfFav();
             }, 1000);
-        } else {
-            setisInFav(false);
-        }
-        
+        } 
         setRating(prodInfo.rating);
-    }, [catalog, loginInfo, location])
+    }, [catalog, loginInfo, prodInfo])
 
     return (
         <div className="main_space">

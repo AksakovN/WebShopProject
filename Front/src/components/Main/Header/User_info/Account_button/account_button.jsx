@@ -12,7 +12,7 @@ function Account_button() {
     return (
         <div className='account_button'>
             <img src={require("../../../../Images/user.png")} onMouseEnter={handlerUserPanelOpen} alt="accountButton" />
-            {userPanel ? <User_panel/> : ''}
+            {userPanel && <User_panel/>}
         </div>
     );
 }

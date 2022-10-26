@@ -1,14 +1,16 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { useContext, useEffect, useState } from 'react';
 import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 import Product_card from '../Product_card/product_card';
 import './favourite_window.scss';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 
 function Favourite_window() {
-    const { favInfo, setfavInfo } = useContext(ForInnerDataContext);
+    const { favInfo, setfavInfo, loginInfo } = useContext(ForInnerDataContext);
     const [products, setproducts] = useState([]);
+    const navigate = useNavigate();
 
     function getProduct() {
         const LocalArray = JSON.parse(localStorage.getItem('favProducts'));
@@ -43,14 +45,16 @@ function Favourite_window() {
     }
 
     useEffect(() => {
+        if (Cookies.get('token') == undefined) {
+            navigate('/');
+        }
         if (localStorage.getItem('favProducts') == null) {
             getFavProducts();
             setfavInfo(favInfo + 1);
         } else {
             getProduct();
         }
-        console.log(products);
-    }, [favInfo])
+    }, [favInfo, loginInfo])
 
     return (
         <div className="main_space">

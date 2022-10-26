@@ -17,8 +17,7 @@ function User_panel() {
         <div className='cart_wrapper' onMouseLeave={handlerCartClose}>
             <div className='user_main'>        
                 <div className="user_panel_body" >
-                    {loginInfo ? <User_login/> : <User_logout />}      
-                    {/* <div className="free_space"></div> */}
+                    {loginInfo ? <User_login/> : <User_logout />}
                 </div>
             </div>
         </div>

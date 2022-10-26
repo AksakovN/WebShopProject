@@ -22,6 +22,23 @@ function Favourite_button() {
         axios.post('http://127.0.0.1:8000/api/addFav', { id: LocalArray }, config)
     }
 
+    function getFavProducts() {
+        const token = Cookies.get('token');
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        axios.post('http://127.0.0.1:8000/api/me', '', config)
+            .then((resp) => {
+                let response = [];
+                if (resp.data !== 0) {
+                    response = resp.data;
+                }
+                localStorage.setItem('favProducts', JSON.stringify(response));
+                fav_size.current.style.display = "block";
+                setfav_number(response.length);
+            })
+    }
+
     function handlerForFavouriteWindow(e) {
         e.preventDefault();
         if (loginInfo) {
@@ -34,7 +51,9 @@ function Favourite_button() {
 
     useEffect(() => {
         if (loginInfo) {
-            if (JSON.parse(localStorage.getItem('favProducts')).length < 1) {
+            if (localStorage.getItem('favProducts') == null) {
+                getFavProducts();
+            } else if (JSON.parse(localStorage.getItem('favProducts')).length < 1) {
                 fav_size.current.style.display = "none";
                 setfav_number(0);
             } else if (localStorage.getItem('favProducts') !== null) {

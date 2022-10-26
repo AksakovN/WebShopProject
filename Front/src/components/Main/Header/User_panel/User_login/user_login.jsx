@@ -6,6 +6,7 @@ import './user_login.scss';
 
 function User_login() {
     const { setloginInfo } = useContext(ForInnerDataContext);
+    const username = Cookies.get('userInfo').substring(0, Cookies.get('userInfo').indexOf('/'));
 
     function userLogout() {
         const token = Cookies.get('token');       
@@ -19,12 +20,14 @@ function User_login() {
     function handlerForUserLogout() {
         userLogout();
         Cookies.remove('token');
+        localStorage.removeItem('favProducts');
         setloginInfo(false);
     }
 
 
     return (
         <div className='for_user_auth'>
+            <p>{username}</p>
             <button onClick={handlerForUserLogout}>Logout</button>
         </div>
     );

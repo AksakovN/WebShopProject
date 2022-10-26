@@ -19,7 +19,7 @@ function Breadcrumbs() {
     const [crumbArray, setcrumbArray] = useState(['Main']);
     const [PNFCheck, setPNFCheck] = useState(false);
     const anim = useRef(null);
-    const { setproducts, setproductsPage, prodInfo } = useContext(ForRequestsContext);
+    const { setproducts, setproductsPage, setprodInfo } = useContext(ForRequestsContext);
     const { setforPNF } = useContext(ForInnerDataContext);
 
 
@@ -84,7 +84,7 @@ function Breadcrumbs() {
                     navigate('/Page_not_found');
                     return;
                 }
-                localStorage.setItem('productInfo', JSON.stringify(resp.data));
+                setprodInfo(resp.data);
                 const setStart = ['Main'];
                 setStart.push(returnCategory(resp.data.reserved));
                 setStart.push(returnSubcategory(resp.data.subcategory_id));
@@ -121,14 +121,7 @@ function Breadcrumbs() {
                     setPNFCheck(true);
                 }
             } else if (findPath().includes('Product')) {
-                if (localStorage.getItem('productInfo') !== null) {
-                    setStart.push(returnCategory(JSON.parse(localStorage.getItem('productInfo')).reserved));
-                    setStart.push(returnSubcategory(JSON.parse(localStorage.getItem('productInfo')).subcategory_id));
-                    setStart.push('Current product');
-                    setcrumbArray(setStart);
-                } else {
-                    getProduct();
-                }
+                getProduct();
             } else if (findPath().includes('Page')) {
                 const currPage = findPath().substring(5);
                 if (currPage == 1) {
@@ -143,7 +136,6 @@ function Breadcrumbs() {
                 if ((findPath().split("/").length - 1) == 1) {
                     const ind = findPath().indexOf('/');
                     const catPath = findPath().substring(ind + 1);
-                    console.log(catPath);
                     if (getCategory(catPath) == null) {
                         setforPNF(window.location.href);
                         navigate('/Page_not_found');
@@ -186,7 +178,7 @@ function Breadcrumbs() {
                 }
             }
         }, 500);
-    }, [location, prodInfo])
+    }, [location])
 
 
 

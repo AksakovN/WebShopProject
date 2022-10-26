@@ -69,7 +69,7 @@ class Api_usersController extends Controller
     }
 
     public function me(Request $req){
-        return $req->user()->fav_id;     
+        return $req->user()->fav_id;
     }
 
     public function logout(Request $req)

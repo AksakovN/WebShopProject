@@ -37,6 +37,7 @@ function Pagination_button({ e, page_info }) {
         navigate(`/Page/${page}`);
         restoreColor();
         button.current.style.filter = 'contrast(50%)';
+        button.current.style.pointerEvents = 'none';
         setchecker(checker + 1);
         setpagination_detail(false);
     }
@@ -45,12 +46,14 @@ function Pagination_button({ e, page_info }) {
         const buttons = document.querySelectorAll('.pagination_item');
         buttons.forEach(button => {
             button.style.filter = 'unset';
+            button.style.pointerEvents = 'auto';
         });
     }
 
     useEffect(() => {
         if (page_info.current_page == e.label) {
             button.current.style.filter = 'contrast(50%)';
+            button.current.style.pointerEvents = 'none';
         }
     }, [checker])
 
