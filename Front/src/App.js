@@ -3,6 +3,7 @@ import './App.css';
 import Header from "./components/Main/Header/header";
 import Favourite_window from "./components/Main/Main_body/Favourite_window/favourite_window";
 import Main_window from "./components/Main/Main_body/Main_window/main_window";
+import Order_window from "./components/Main/Main_body/Order_window/order_window";
 import Page_not_found from "./components/Main/Main_body/Page_not_found/page_not_found";
 import Product_window from "./components/Main/Main_body/Product_window/product_window";
 import Search_window from "./components/Main/Main_body/Search_window/search_window";
@@ -23,6 +24,7 @@ function App() {
           <Route path='/Product/:id' element={<Product_window />} />
           <Route path='/Search' element={<Search_window />} />
           <Route path='/Favourite' element={<Favourite_window />} />
+          <Route path='/Order' element={<Order_window />} />
           <Route path='*' element={<Page_not_found />} />
 
         </Routes>

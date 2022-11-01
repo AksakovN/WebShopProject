@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ForInnerDataContext } from '../../../../contexts/forInnerDataContext';
 import { ForModalContext } from '../../../../contexts/forModalContext';
 import './cart.scss';
@@ -10,10 +11,14 @@ function Cart() {
     const { totalPrice } = useContext(ForInnerDataContext);
     const [price, setprice] = useState(0);
     const [cartItems, setcartItems] = useState([]);
+    const navigate = useNavigate();
 
 
     function handlerCartClose() {
         setcart(false);
+    }
+    function handlerForOrderButton() {
+        navigate('/Order');
     }
 
     useEffect(() => {
@@ -44,7 +49,7 @@ function Cart() {
                         <div>Total price:</div>
                         <div>{price} ₴</div>
                     </div>
-                    <div className="cart_buy_button">
+                    <div className="cart_buy_button" onClick={handlerForOrderButton}>
                         {cartItems.length > 0 ? <button>Order</button> : 'Cart is empty'}
                     </div>
                 </div>

@@ -117,6 +117,9 @@ function Breadcrumbs() {
                 } else if (findPath().includes('Favourite')) {
                     setStart.push('Favourite products page')
                     setcrumbArray(setStart);
+                } else if (findPath().includes('Order')) {
+                    setStart.push('New order');
+                    setcrumbArray(setStart);
                 } else if (findPath().length > 0) {
                     setPNFCheck(true);
                 }

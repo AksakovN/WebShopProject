@@ -43,7 +43,7 @@ function Header() {
         <nav>
             <Burger />
             <div className='logo' >
-                <a href='' onClick={handlerredirectOnMain}>
+                <a href='/' onClick={handlerredirectOnMain}>
                     <img src={require("../../Images/250-2508817_shop-png-black-and-white-pluspng-word-shop.png")} alt="Shop logo" />
                 </a>
             </div>

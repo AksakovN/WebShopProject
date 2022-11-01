@@ -71,7 +71,11 @@ function Commentary_section({ productId }) {
         const Uid = userInfo.substring((indexOfSl + 1));
         const body = commentBody.current.value;
         const ratingValue = rating;
-        axios.post('http://127.0.0.1:8000/api/setCommentary', { id: id, login: login, Uid: Uid, body: body, rating: ratingValue })
+        const userComm = { id: id, login: login, Uid: Uid, body: body, rating: ratingValue };
+        axios.post('http://127.0.0.1:8000/api/setCommentary', userComm);
+        userComm.likedUsers = 0;
+        userComm.dislikedUsers = 0;
+        setuserCommentary(userComm);
     }
 
     function handlerForShowAddCommentary() {

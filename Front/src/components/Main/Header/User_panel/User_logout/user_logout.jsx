@@ -38,10 +38,11 @@ function User_logout() {
         axios.post('http://127.0.0.1:8000/api/register', { login: login, password: password, email: email, number: number })
             .then((resp) => {
                 Cookies.set('token', resp.data.access_token, { expires: 1 }); 
-                Cookies.set('userInfo', [resp.data.login, resp.data.id], { expires: 1 });  
+                const forToken = `${resp.data.login}/${resp.data.id}`;
+                Cookies.set('userInfo', forToken, { expires: 1 });  
                 setloginInfo(true);
             })
-            .catch((error) => {
+            .catch(() => {
                 setexistedEmail(true);
             })
     }
