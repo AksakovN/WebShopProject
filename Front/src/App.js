@@ -26,7 +26,6 @@ function App() {
           <Route path='/Favourite' element={<Favourite_window />} />
           <Route path='/Order' element={<Order_window />} />
           <Route path='*' element={<Page_not_found />} />
-
         </Routes>
       </div>
     </div>

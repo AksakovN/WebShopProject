@@ -37,16 +37,25 @@
             }
             .cart_buy_button{
                 color: white;
-                button{
+                display: flex;
+                justify-content: center;
+                a{
+                    display: inline-block;
+                    text-decoration: none;
                     width: 90px;
                     height: 40px;
                     border: none;
                     outline: none;
                     background-color: white;
+                    color: black;
                     border-radius: 6px;
                     transition: 0.3s;
                     font-size: 20px;
+                    text-align: center;
+                    line-height: 40px;
+                    font-weight: 600;
                     &:hover{
+                        color: rgb(45, 45, 158);
                         border: 2px solid white;
                         box-shadow: 0 0 4px 1px white;
                     }

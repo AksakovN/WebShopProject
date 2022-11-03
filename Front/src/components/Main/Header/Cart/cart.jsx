@@ -17,8 +17,26 @@ function Cart() {
     function handlerCartClose() {
         setcart(false);
     }
-    function handlerForOrderButton() {
+    function handlerForOrderButton(e) {
+        e.preventDefault();
         navigate('/Order');
+    }
+
+    function checkPriceLength(priceLength) {
+        switch (priceLength) {
+            case 4:
+                return 1;
+            case 5:
+                return 2;
+            case 6:
+                return 3;
+            case 7:
+                return [1, 4];
+            case 8:
+                return [2, 5];
+            case 9:
+                return [3, 6];
+        }
     }
 
     useEffect(() => {
@@ -31,10 +49,22 @@ function Cart() {
         if (localStorage.getItem('cartInfo') !== null) {
             const new_price = JSON.parse(localStorage.getItem('cartInfo'));
             let new_price_count = 0
+            let price_res = 0;
             new_price.forEach(e => {
                 new_price_count += parseInt(e.price) * parseInt(e.count);
             });
-            setprice(new_price_count);
+            if (new_price_count.toString().length > 3) {
+                const price_count = checkPriceLength(new_price_count.toString().length);
+                if (price_count[1] !== undefined) {
+                    price_res = [new_price_count.toString().slice(0, price_count[0]), ',', new_price_count.toString().slice(price_count[0])].join(''); 
+                    price_res = [price_res.toString().slice(0, price_count[1] + 1), ',', price_res.toString().slice(price_count[1] + 1)].join(''); 
+                } else {
+                    price_res = [new_price_count.toString().slice(0, price_count), ',', new_price_count.toString().slice(price_count)].join(''); 
+                }
+            } else {
+                price_res = new_price_count;
+            }
+            setprice(price_res);
         } else {
             setprice(0);
         }
@@ -50,7 +80,7 @@ function Cart() {
                         <div>{price} ₴</div>
                     </div>
                     <div className="cart_buy_button" onClick={handlerForOrderButton}>
-                        {cartItems.length > 0 ? <button>Order</button> : 'Cart is empty'}
+                        {cartItems.length > 0 ? <a href='/Order'>Order</a> : 'Cart is empty'}
                     </div>
                 </div>
                 <div className="cart_body">

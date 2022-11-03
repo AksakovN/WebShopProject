@@ -72,6 +72,10 @@ class Api_usersController extends Controller
         return $req->user()->fav_id;
     }
 
+    public function meNumber(Request $req){
+        return $req->user()->phone_number;
+    }
+
     public function logout(Request $req)
     {
         $req->user()->tokens()->delete();

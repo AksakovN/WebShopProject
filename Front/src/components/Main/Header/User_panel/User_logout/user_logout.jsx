@@ -137,7 +137,7 @@ function User_logout() {
                     </div>
                     <div className="phone_number_area">
                         Phone number: <br />
-                        <Phone_number_input num_value={set_num_value} />
+                        <Phone_number_input num_value={set_num_value} marker={'login'}/>
                     </div>
                 </div> : ''}
                 <button onClick={handlerForSendAccInfo}>{switchLogin ? 'Register' : 'Log In'}</button>

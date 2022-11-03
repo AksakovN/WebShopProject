@@ -50,6 +50,8 @@ Route::post('addFav', 'App\Http\Controllers\Api_usersController@addToFav')->midd
 
 Route::post('me', 'App\Http\Controllers\Api_usersController@me')->middleware('auth:sanctum');
 
+Route::post('getNumber', 'App\Http\Controllers\Api_usersController@meNumber')->middleware('auth:sanctum');
+
 Route::post('logout', 'App\Http\Controllers\Api_usersController@logout')->middleware('auth:sanctum');
 
 

@@ -2,16 +2,21 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { ForInnerDataContext } from '../../../../../contexts/forInnerDataContext';
 import { ForModalContext } from '../../../../../contexts/forModalContext';
 import Cart from '../../Cart/cart';
+import { useLocation } from 'react-router-dom';
 import './cart_button.scss';
 
 function Cart_button() {
     const cart_button = useRef(null);
     const cart_size = useRef(null);
+    const location = useLocation();
     const [cart_count, setcart_count] = useState(0);
     const { cart, setcart } = useContext(ForModalContext);
     const { totalPrice } = useContext(ForInnerDataContext);
 
     function handlerUserPanelOpen() {
+      if (location.pathname.substring(1) == 'Order') {
+        return;
+      }
         setcart(true);
     }
 
@@ -32,7 +37,7 @@ function Cart_button() {
             <img src={require("../../../../Images/cart.png")} alt="cartButton" 
             ref={cart_button} onMouseEnter={handlerUserPanelOpen}/>
             <div className="cart_size" ref={cart_size}>{cart_count}</div>
-            {cart ? <Cart/> : ''}
+            {cart && <Cart/>}
         </div>
     );
 }

@@ -1,6 +1,12 @@
+import { useContext, useEffect, useRef } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import './phone_number_input.scss';
+import { ForInnerDataContext } from '../../../../../../contexts/forInnerDataContext';
 
-function Phone_number_input({num_value}) {
+function Phone_number_input({ num_value, marker }) {
+    const input = useRef(null);
+    const { loginInfo } = useContext(ForInnerDataContext);
     const isNumericInput = (e) => {
         const key = e.keyCode;
         return ((key >= 48 && key <= 57) ||
@@ -37,12 +43,34 @@ function Phone_number_input({num_value}) {
         if (input.length > 6) { e.target.value = `(${areaCode}) ${middle} - ${last}`; }
         else if (input.length > 3) { e.target.value = `(${areaCode}) ${middle}`; }
         else if (input.length > 0) { e.target.value = `(${areaCode}`; }
-        num_value(e.target.value);
+        if (marker = 'login') {
+            num_value(e.target.value);
+        }
     };
+
+    function checkPhoneNumber() {
+        const token = Cookies.get('token');
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        axios.post('http://127.0.0.1:8000/api/getNumber', '', config)
+            .then((resp) => {
+                input.current.value = resp.data;
+            })
+    }
+
+    useEffect(() => {
+      if (marker == 'order') {
+        if (Cookies.get('token') !== undefined) {
+            checkPhoneNumber();
+        } else {
+            input.current.value = '';
+        }
+      }
+    }, [loginInfo])
+    
     return (
-        <div>
-            <input id="phoneNumber" onKeyDown={enforceFormat} onKeyUp={formatToPhone} maxLength="16" required/>
-        </div>
+        <input ref={input} id="phoneNumber" onKeyDown={enforceFormat} onKeyUp={formatToPhone} maxLength="16" required />
     );
 }
 
