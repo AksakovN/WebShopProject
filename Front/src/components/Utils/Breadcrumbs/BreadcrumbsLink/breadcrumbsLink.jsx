@@ -1,13 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './breadcrumbsLink.scss';
 
 function BreadcrumbsLink({ link, array }) {
     const location = useLocation();
-    const cramb = useRef(null);
+    const navigate = useNavigate();
     const [url, seturl] = useState('/');
 
-
+    function breadcrumbOnClick(e) {
+        e.preventDefault();
+        navigate(`${url}`);
+    }
 
     useEffect(() => {
         if (location.pathname !== '' && url == '/') {
@@ -21,7 +25,7 @@ function BreadcrumbsLink({ link, array }) {
     
     
     return (
-        <a className='crumb' ref={cramb} href={url}>
+        <a className='crumb' onClick={breadcrumbOnClick} href={url}>
             {' > '}{link}
         </a>
     );

@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { ForRequestsContext } from '../../../contexts/forRequestsContext';
 import { ForInnerDataContext } from '../../../contexts/forInnerDataContext';
 import BreadcrumbsLink from './BreadcrumbsLink/breadcrumbsLink';
+import { ForModalContext } from '../../../contexts/forModalContext';
 
 
 function Breadcrumbs() {
@@ -21,7 +22,18 @@ function Breadcrumbs() {
     const anim = useRef(null);
     const { setproducts, setproductsPage, setprodInfo } = useContext(ForRequestsContext);
     const { setforPNF } = useContext(ForInnerDataContext);
+    const { setpagination_detail } = useContext(ForModalContext);
 
+    function prodRequest() {
+        axios.get('http://127.0.0.1:8000/api/products?limit=12')
+            .then((resp) => {
+                setproducts(resp.data.data);
+                setproductsPage(resp.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
 
     function handlerForCrumbRedirect(e) {
         e.stopPropagation();
@@ -108,9 +120,10 @@ function Breadcrumbs() {
             setcrumbArray(['Main']);
             const setStart = ['Main'];
             setPNFCheck(false);
+            setpagination_detail(false);
             if (findPath().indexOf('/') == -1) {
                 if (findPath() == '') {
-                    return;
+                    prodRequest();
                 } else if (findPath().includes('Search')) {
                     setStart.push('Search result')
                     setcrumbArray(setStart);
@@ -132,6 +145,10 @@ function Breadcrumbs() {
                 }
                 axios.get(`http://127.0.0.1:8000/api/products?page=${currPage}&limit=12`)
                     .then((resp) => {
+                        if (resp.data.data.length == 0) {
+                            navigate('/Page_not_found');
+                            return;
+                        }
                         setproducts(resp.data.data);
                         setproductsPage(resp.data);
                     })

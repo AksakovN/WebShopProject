@@ -70,10 +70,9 @@ function Order_window() {
             return;
         }
         succesfull_purshare.current.style.display = 'flex';
-        localStorage.removeItem('cartInfo');
-        settotalPrice(totalPrice + 1);
+        localStorage.removeItem('cartInfo');  
         setTimeout(() => {
-            navigate('/');
+            settotalPrice(totalPrice + 1);
         }, 1000);
     }
 

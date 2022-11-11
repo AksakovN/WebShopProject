@@ -34,6 +34,14 @@ function User_logout() {
         setnumber_value(current => current = value);
     }
 
+    function handlerForValidCheck() {
+        const password = passwordRef.current.value;
+        const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})");
+        if (!mediumRegex.test(password)) {
+            setshortPassword(true);
+        }
+    }
+
     function registerAccData(login, password, email, number) {
         axios.post('http://127.0.0.1:8000/api/register', { login: login, password: password, email: email, number: number })
             .then((resp) => {
@@ -120,7 +128,7 @@ function User_logout() {
                 </div>
                 <div className="pass_a">
                     Password: <br />
-                    <input type="password" ref={passwordRef} required />
+                    <input type="password" ref={passwordRef} onMouseLeave={handlerForValidCheck} required />
                     {vrongPassword && <div className="input_error">Invalid login data!</div>}
                     {shortPassword && <div className="input_error">Password must contain at least one numeric, one capital letter and at least 8 symbols!</div>}
                 </div>

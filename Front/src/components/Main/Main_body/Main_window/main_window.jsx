@@ -14,26 +14,12 @@ function Main_window() {
     const { catalog } = useContext(ForModalContext);
     const [isOnCat, setisOnCat] = useState(false);
     const location = useLocation();
-    const { products, setproducts, productsPage, setproductsPage } = useContext(ForRequestsContext);
-
-    function prodRequest() {
-        axios.get('http://127.0.0.1:8000/api/products?limit=12')
-            .then((resp) => {
-                setproducts(resp.data.data);
-                setproductsPage(resp.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
+    const { products, productsPage } = useContext(ForRequestsContext);
 
     useEffect(() => {
         localStorage.removeItem('productInfo');
         localStorage.removeItem('searchResult');
         localStorage.removeItem('searchProducts');
-        if (products.length < 1) {
-            prodRequest();
-        }
         if (catalog === true) {
             catalog_space.current.style.display = 'block';
         } else {

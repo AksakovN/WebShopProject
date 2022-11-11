@@ -98,14 +98,14 @@ function Product_card({ marker }) {
 
     return (
         <div className='product_card' >
-            <a href={`/product/${marker.id}`} onClick={handlerRedirectOnProd}><img src={img} alt=""  /></a>
+            <a href={`/Product/${marker.id}`} onClick={handlerRedirectOnProd}><img src={img} alt=""  /></a>
             <div className="product_card_menu">
                 <img src={require(isInFav ? "../../../Images/check.png" : "../../../Images/favourite.png")}
                     alt="addToFavourite" onClick={handlerAddToFav} />
                 <img src={require("../../../Images/cart.png")} alt="addToCart" onClick={handlerAddToCart} />
             </div>
             <div className="product_card_titles">
-                <a href={`/product/${marker.id}`} className="title_for_name" onClick={handlerRedirectOnProd}>
+                <a href={`/Product/${marker.id}`} className="title_for_name" onClick={handlerRedirectOnProd}>
                     {marker.name}
                 </a>
                 <div className="title_for_price">
