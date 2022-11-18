@@ -36,7 +36,9 @@ function Commentary({ commentData, readonly }) {
 
     function changeLike(index, likeUsers, dislikeUsers, likeNum) {
         const id = commentData.id;
-        axios.post('http://127.0.0.1:8000/api/changeLikes', { id: id, index: index, likeBody: likeNum, likeUsers: likeUsers, dislikeBody: dislike, dislikeUsers: dislikeUsers });
+        const userInfo = Cookies.get('userInfo');
+        const Uid = userInfo.substring((userInfo.indexOf('/') + 1));
+        axios.post('http://127.0.0.1:8000/api/changeLikes', { userId: Uid, id, index: index, likeBody: likeNum, likeUsers: likeUsers, dislikeBody: dislike, dislikeUsers: dislikeUsers });
     }
 
     function changeComment() {
@@ -44,6 +46,7 @@ function Commentary({ commentData, readonly }) {
         const Uid = userInfo.substring((userInfo.indexOf('/') + 1));
         axios.post('http://127.0.0.1:8000/api/changeCommentary', { id: Uid, body: commentText, rating: rating })
     }
+
     ////////////////////////////////////////////////////////////////
     function forSetUsers(likeResp, likeResult) {
         if (likeResp == 'like') {

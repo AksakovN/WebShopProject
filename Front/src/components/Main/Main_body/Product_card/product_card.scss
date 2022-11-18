@@ -8,43 +8,51 @@
     flex-wrap: wrap;
     cursor: default;
     border-radius: 4px;
-    box-shadow: 0px 0px 6px 1px black;
+    box-shadow: rgb(49, 78, 172) 0 0 8px;
     transition: 0.3s;
 
     &:hover {
         box-shadow: 2px 2px 4px 2px black;
     }
-
-    img {
-        width: 190px;
-        height: 140px;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-    .product_card_menu {
-        width: 55px;
-        height: 140px;
-        margin-left: 5px;
+    .product_card_head{
+        width: 100%;
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
         align-items: center;
-        justify-content: space-around;
-
-        img {
-            width: 40px;
-            height: 45px;
-            transition: 0.3s;
-            background: rgb(15, 11, 87);
-            background: linear-gradient(180deg, rgb(18, 11, 148) 0%, rgb(45, 45, 158) 18%, rgb(1, 147, 177) 100%);
-            border-radius: 5px;
-            box-shadow: 0 0 5px 1px black;
-
-            &:hover {
-                transform: scale(1.1);
+        a{
+            width: 70%;
+            img {
+                width: 190px;
+                height: 140px;
+                transition: 0.3s;
+                cursor: pointer;
             }
         }
-    }
+        
+        .product_card_menu {
+            width: 55px;
+            height: 140px;
+            margin-left: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+    
+            img {
+                width: 40px;
+                height: 45px;
+                transition: 0.3s;
+                background: rgb(15, 11, 87);
+                background: linear-gradient(180deg, rgb(18, 11, 148) 0%, rgb(45, 45, 158) 18%, rgb(1, 147, 177) 100%);
+                border-radius: 5px;
+                box-shadow: 0 0 5px 1px black;
+    
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+        }
+    } 
 
     .product_card_titles {
         margin-top: 5px;
@@ -54,11 +62,12 @@
 
         .title_for_name {
             width: 70%;
-            height: 55px;
+            height: 45px;
             overflow: hidden;
             margin: 0;
+            color: black;
             text-align: left;
-            font-size: 14px;
+            font-size: 16px;
             text-decoration: none;
             &:hover {
                 text-decoration: underline;
@@ -67,6 +76,10 @@
 
         .title_for_price {
             width: 30%;
+            .title_for_price_act{
+                font-size: 18px;
+                font-weight: 700;
+            }
         }
     }
 }

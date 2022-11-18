@@ -12,7 +12,7 @@ class Product extends Model
 
     protected $table = 'products';
     public $timestamps = false;
-    protected $fillable = ['name', 'price', 'description', 'image_url', 'discounts', 'reserved', 'forMain', 'rating', 'ratingEntries'];
+    protected $fillable = ['name', 'price', 'description', 'image_url', 'discounts', 'reserved', 'forMain', 'rating', 'ratingEntries', 'imgSize'];
 
     public function subcategory()
     {

@@ -66,12 +66,36 @@ class CommentaryController extends Controller
 
     public function changeLikes(Request $req)
     {
+        // $checkLikes = Commentary::find($req->id);
+        // $countLikes = 0;
+        // $countDislikes = 0;
+        // foreach (explode(',', $checkLikes->likedUsers) as $value) {
+        //     if ($value == $req->userId) {
+        //         $countLikes +=1;
+        //     }
+        // }
+        // foreach (explode(',', $checkLikes->dislikedUsers) as $value) {
+        //     if ($value == $req->userId) {
+        //         $countDislikes +=1;
+        //     }
+        // }
         if ($req->index == 'like') {
+            // if ($countDislikes > 0) {
+            //     Commentary::where('id', $req->id)->update([
+            //         'likes' => $req->likeBody,
+            //         'likedUsers' => $req->likeUsers,
+            //         'dislikes' => $req->dislikeBody,
+            //         'dislikedUsers' => $req->dislikeUsers,
+            //     ]);
+            // }
             Commentary::where('id', $req->id)->update([
                 'likes' => $req->likeBody,
                 'likedUsers' => $req->likeUsers,
             ]);
         } else {
+            // if ($countLikes > 0) {
+            //     # code...
+            // }
             Commentary::where('id', $req->id)->update([
                 'dislikes' => $req->dislikeBody,
                 'dislikedUsers' => $req->dislikeUsers,

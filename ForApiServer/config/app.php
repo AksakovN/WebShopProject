@@ -190,6 +190,7 @@ return [
 
     'aliases' => [
 
+        'Alert' => 'Prologue\Alerts\Facades\Alert',
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,

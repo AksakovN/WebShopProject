@@ -6,6 +6,7 @@ import Commentary_section from './Commetary_section/commentary_section';
 import { Rating } from 'react-simple-star-rating';
 import { Helmet } from 'react-helmet-async';
 import { ForRequestsContext } from '../../../../contexts/forRequestsContext';
+import Product_window_carousel from './Product_window_carousel/product_window_carousel';
 
 function Product_window() {
     const { catalog, setuserPanel } = useContext(ForModalContext);
@@ -15,14 +16,14 @@ function Product_window() {
     const catalog_space = useRef(null);
     const image_space = useRef(null);
     const [rating, setRating] = useState(0);
-    
+
     function checkIfFav() {
         if (localStorage.getItem('favProducts') !== null) {
             const LocalArray = JSON.parse(localStorage.getItem('favProducts'));
             LocalArray.forEach(e => {
                 if (e.id == prodInfo.id) {
                     setisInFav(true);
-                } 
+                }
             });
         }
     }
@@ -104,7 +105,7 @@ function Product_window() {
             setTimeout(() => {
                 checkIfFav();
             }, 1000);
-        } 
+        }
         setRating(prodInfo.rating);
     }, [catalog, loginInfo, prodInfo])
 
@@ -115,44 +116,47 @@ function Product_window() {
             </Helmet>
             <div className='catalog_space' ref={catalog_space}></div>
             <div className='product_body'>
-                <div className="left_section">
-                    <div className="img_part">
-                        <div className="img_space" ref={image_space}>
-                            <img src={prodInfo.image_url} alt=""
-                                onClick={handlerImageHoverOn}
-                                onMouseLeave={handlerImageHoverOff}
-                            />
+                <div className="product_space">
+                    <div className="left_section">
+                        <div className="img_part">
+                            <div className="img_space" ref={image_space}>
+                                <img src={prodInfo.image_url} alt=""
+                                    onClick={handlerImageHoverOn}
+                                    onMouseLeave={handlerImageHoverOff}
+                                />
+                            </div>
+                            <div className="img_footer">
+                                <div className="rating">
+                                    <Rating ratingValue={rating * 10} allowHalfIcon={true} readonly={true} />  <p>{rating}</p>
+                                </div>
+                                <div className="add_to_fav">
+                                    <img src={require(isInFav ? "../../../Images/checkB.png" : "../../../Images/favourite_b.png")}
+                                        alt="favourite button" onClick={handlerAddToFav} />
+                                    {isInFav ? 'Added' : 'Add to favourite'}
+                                </div>
+                            </div>
                         </div>
-                        <div className="img_footer">
-                            <div className="rating">
-                                <Rating ratingValue={rating * 10} allowHalfIcon={true} readonly={true} />  <p>{rating}</p>
-                            </div>
-                            <div className="add_to_fav">
-                                <img src={require(isInFav ? "../../../Images/checkB.png" : "../../../Images/favourite_b.png")}
-                                    alt="favourite button" onClick={handlerAddToFav} />
-                                {isInFav ? 'Added' : 'Add to favourite'}
-                            </div>
+                        <div className="commentary_part">
+                            <Commentary_section productId={prodInfo} />
                         </div>
                     </div>
-                    <div className="commentary_part">
-                        <Commentary_section productId={prodInfo} />
+                    <div className="right_section">
+                        <div className="info_part">
+                            <div className="product_name">{prodInfo.name}</div>
+                            <div className="prod_hr"></div>
+                            <div className="price_box">
+                                <div className="product_price">{prodInfo.price} ₴</div>
+                                <div className="add_to_cart_button" onClick={handlerAddToCart}>
+                                    <img src={require('../../../Images/cart.png')} alt="" />
+                                </div>
+                            </div>
+                            <div className="description">
+                                {prodInfo.description}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="right_section">
-                    <div className="info_part">
-                        <div className="product_name">{prodInfo.name}</div>
-                        <div className="price_box">
-                            <div className="product_price">{prodInfo.price} ₴</div>
-                            <div className="add_to_cart_button" onClick={handlerAddToCart}>
-                                <img src={require('../../../Images/cart.png')} alt="" />
-                            </div>
-                        </div>
-                        <div className="description">
-                            {prodInfo.description}
-                        </div>
-                    </div>
-                </div>
-
+                <Product_window_carousel />
             </div>
         </div>
     );

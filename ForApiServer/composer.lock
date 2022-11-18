@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7896178451e55023be50aac02f51460",
+    "content-hash": "c6d9b4378face126001df5a36f27081a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2757,6 +2757,68 @@
                 "source": "https://github.com/opis/closure/tree/3.6.3"
             },
             "time": "2022-01-27T09:35:39+00:00"
+        },
+        {
+            "name": "pestopancake/laravel-backpack-database-notifications",
+            "version": "1.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pestopancake/laravel-backpack-database-notifications.git",
+                "reference": "34b7be7662c9bddbaa04b05fce95bc88cec9253b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pestopancake/laravel-backpack-database-notifications/zipball/34b7be7662c9bddbaa04b05fce95bc88cec9253b",
+                "reference": "34b7be7662c9bddbaa04b05fce95bc88cec9253b",
+                "shasum": ""
+            },
+            "require": {
+                "backpack/crud": "^5.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^5.0|^4.0|^3.0",
+                "phpunit/phpunit": "~8.0|~7.0|~9.0",
+                "scrutinizer/ocular": "~1.7|~1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Pestopancake\\LaravelBackpackNotifications\\LaravelBackpackNotificationsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pestopancake\\LaravelBackpackNotifications\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "pestopancake",
+                    "email": "pestopancake@gmail.com"
+                }
+            ],
+            "description": "Database notifications interface for Laravel Backpack",
+            "homepage": "https://github.com/pestopancake/laravel-backpack-notifications",
+            "keywords": [
+                "database notifications",
+                "laravel",
+                "laravel backpack",
+                "notifications"
+            ],
+            "support": {
+                "issues": "https://github.com/pestopancake/laravel-backpack-database-notifications/issues",
+                "source": "https://github.com/pestopancake/laravel-backpack-database-notifications/tree/1.0.8"
+            },
+            "time": "2022-08-06T15:24:35+00:00"
         },
         {
             "name": "phpoption/phpoption",

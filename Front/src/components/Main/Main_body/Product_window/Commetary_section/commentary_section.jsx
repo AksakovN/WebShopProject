@@ -104,7 +104,7 @@ function Commentary_section({ productId }) {
                 commentAnim.current.style.display = 'none';
                 setcommentaryShown(!commentaryShown);
                 setTimeout(() => {
-                    window.scrollTo({ top: 1000, behavior: "smooth" })
+                    window.scrollTo({ top: 700, behavior: "smooth" })
                 }, 100);
             }, 1000);
         } else {

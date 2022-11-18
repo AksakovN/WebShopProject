@@ -30,11 +30,32 @@ function User_logout() {
         setswitchLogin(true);
     }
 
+    function handlerForHideError() {
+        setvrongPassword(false);
+        setshortPassword(false);
+    }
+
+    function handlerForEmailError() {
+        setvrongEmail(false);
+        setexistedEmail(false);
+    }
+
+    function handlerForRepPassError() {
+        setvrongRepPassword(false);
+    }
+
+    function handlerForLoginError() {
+        setwrondLogin(false);
+    }
+
     const set_num_value = value => {
         setnumber_value(current => current = value);
     }
 
     function handlerForValidCheck() {
+        if (emailRef.current.value == '') {
+            return;
+        }
         const password = passwordRef.current.value;
         const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})");
         if (!mediumRegex.test(password)) {
@@ -110,7 +131,6 @@ function User_logout() {
         }
     }
 
-
     return (
         <div className='for_user_auth'>
             {switchLogin && <div className='background' onClick={handlerForUserPanelClose}></div>}
@@ -122,25 +142,25 @@ function User_logout() {
 
                 <div className="email_area">
                     Email: <br />
-                    <input type="email" ref={emailRef} required />
+                    <input type="email" ref={emailRef} onClick={handlerForEmailError} required />
                     {vrongEmail && <div className="input_error">Invalid email!</div>}
                     {existedEmail && <div className="input_error">This email already registered!</div>}
                 </div>
                 <div className="pass_a">
                     Password: <br />
-                    <input type="password" ref={passwordRef} onMouseLeave={handlerForValidCheck} required />
+                    <input type="password" ref={passwordRef} onClick={handlerForHideError} onMouseLeave={handlerForValidCheck} required />
                     {vrongPassword && <div className="input_error">Invalid login data!</div>}
                     {shortPassword && <div className="input_error">Password must contain at least one numeric, one capital letter and at least 8 symbols!</div>}
                 </div>
                 {switchLogin ? <div className="for_user_register">  
                     <div className="repeat_pass_a">
                         Repeat password: <br />
-                        <input type="password" ref={rep_passwordRef} required />
+                        <input type="password" onClick={handlerForRepPassError} ref={rep_passwordRef} required />
                         {vrongRepPassword && <div className="input_error">Passwords doesn't match!</div>}
                     </div>
                     <div className="login_area">
                         Login: <br />
-                        <input type="text" ref={textRef} required />
+                        <input type="text" ref={textRef} onClick={handlerForLoginError} required />
                         {wrondLogin && <div className="input_error">Login is too short!</div>}
                     </div>
                     <div className="phone_number_area">

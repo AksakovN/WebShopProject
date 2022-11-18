@@ -100,7 +100,7 @@ function Breadcrumbs() {
                 const setStart = ['Main'];
                 setStart.push(returnCategory(resp.data.reserved));
                 setStart.push(returnSubcategory(resp.data.subcategory_id));
-                setStart.push('Current product');
+                setStart.push(resp.data.name);
                 setcrumbArray(setStart);
             })
     }

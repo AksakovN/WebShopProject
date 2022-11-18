@@ -1,6 +1,10 @@
 .carousel_body {
     width: 100%;
+    border-radius: 20px;
     height: max-content;
+    background-color: #fff;
+    box-shadow: rgb(1, 147, 177) 0 -1px 4px, rgb(1, 147, 177) -2px 0 15px, rgb(45, 45, 158) -10px 0 20px, rgb(18, 11, 148) -18px 0 40px, 5px 5px 15px 5px rgba(0,0,0,0),
+    rgb(1, 147, 177) 2px 0 15px, rgb(45, 45, 158) 10px 0 20px, rgb(18, 11, 148) 18px 0 40px, inset rgb(1, 147, 177) 2px 0 5px, inset rgb(1, 147, 177) -2px 0 5px;
 
     p {
         margin: 0;
@@ -9,7 +13,7 @@
         font-weight: 700;
         background: -webkit-linear-gradient(rgb(18, 11, 148), rgb(1, 147, 177));
         -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        -webkit-text-fill-color: transparent;   
     }
 }
 
@@ -17,3 +21,4 @@
     height: 230px;
     margin: 20px 0;
 }
+

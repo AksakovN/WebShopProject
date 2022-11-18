@@ -25,7 +25,6 @@
             display: flex;
             flex-wrap: wrap;
             gap: 60px;
-            background-color: rgb(240, 239, 239);
             justify-content: flex-start;
             align-items: flex-start;
             align-content: flex-start;
@@ -42,6 +41,7 @@
             .carousel{
                 width: 1400px;
                 height: 250px;
+                margin-bottom: 20px;
             }
         }
     }
